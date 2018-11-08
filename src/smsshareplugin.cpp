@@ -2,6 +2,8 @@
 #include "smsuploader.h"
 #include "smsplugininfo.h"
 #include <QtPlugin>
+#include <QtQml>
+#include <QQmlEngine>
 
 SMSSharePlugin::SMSSharePlugin()
 {

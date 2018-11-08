@@ -11,6 +11,7 @@ import org.nemomobile.commhistory 1.0
 import com.jolla.connection 1.0
 import MeeGo.QOfono 0.2
 import org.nemomobile.dbus 2.0
+import hu.mm.vCardSerializer 1.0
 
 Page {
     id: newMessagePage
@@ -51,24 +52,32 @@ Page {
         }
 
         recipients = remoteUids
-        if (recipients.length == 1 && person) {
-            textInput.contactName = person.firstName
-        } else {
-            textInput.contactName = ""
-        }
+    }
+
+
+    DBusInterface {
+        id: smartMessagingIf
+        service: "org.ofono"
+        iface: "org.ofono.SmartMessaging"
+        path: modemManager.voiceModemPath
+        bus: DBus.SystemBus
     }
 
 
     DBusInterface {
         id: smsIf
-        service: "org.ofono"
-        iface: "org.ofono.SmartMessaging"
-        path: "/modem0"
+        service: "org.nemomobile.qmlmessages"
+        iface: "org.nemomobile.qmlmessages"
+        path: "/"
     }
 
     PeopleModel {
         id: peopleModel
         filterType: PeopleModel.FilterNone
+    }
+
+    vCardSerializer {
+        id: id_vCardSerializer
     }
 
     SilicaFlickable {
@@ -79,14 +88,22 @@ Page {
         contentHeight: contentColumn.y + contentColumn.height
         anchors.fill: parent
 
+        PullDownMenu
+        {
+            id: menu
+            MenuItem
+            {
+                text: qsTr("Send")
+                onClicked: send()
+            }
+        }
+
         Column {
             id: contentColumn
             y: newMessagePage.isLandscape ? Theme.paddingMedium : 0
             width: flickable.width
             Item {
                 width: flickable.width
-                height: Math.max(recipientHeader.height, flickable.height - bottomArea.height - contentColumn.y)
-
                 Column {
                     id: recipientHeader
                     width: parent.width
@@ -95,6 +112,34 @@ Page {
                         title: qsTrId("sms-share-la-new_message")
                         visible: newMessagePage.isPortrait
                     }
+                    ComboBox
+                    {
+                        id:  id_shareMode
+                        label: qsTr("Sharing method")
+                        currentIndex: 1
+                        menu: ContextMenu
+                        {
+                            MenuItem
+                            {
+                                id: shareTypevCARD
+                                text: qsTr("vCARD in SmartMessaging format")
+                                onClicked:
+                                {
+                                    textInput.visible = false
+                                }
+                            }
+                            MenuItem
+                            {
+                                id: shareTypePlainText
+                                text: qsTr("Plaintext SMS")
+                                onClicked:
+                                {
+                                    textInput.visible = true
+                                }
+                            }
+                        }
+                    }
+
                     RecipientField {
                         id: recipientField
                         requiredProperty: PeopleModel.PhoneNumberRequired
@@ -118,27 +163,14 @@ Page {
                         onSelectionChanged: updateRecipients(selectedContacts)
                     }
 
-                    Item { height: Theme.paddingLarge; width: 1 }
-                }
-            }
-
-            Row {
-                id: bottomArea
-                width: parent.width
-                ChatTextInput {
-                    id: textInput
-                    width: parent.width - x
-                    enabled: recipientField && !recipientField.empty && visible
-                    onSendMessage: {
-                        if (Telephony.voiceSimUsageMode == Telephony.AlwaysAskSim) {
-                            menuContainer.active = true
-                            menuContainer.item.showMenu(menuContainer)
-                        } else {
-                            newMessagePage.send()
-                        }
+                    TextArea {
+                        id: textInput
+                        width: parent.width
+                        text: id_vCardSerializer.serialize_vCard(content)
                     }
                 }
             }
+
 
             Loader {
                 id: menuContainer
@@ -175,7 +207,6 @@ Page {
                         SimPicker {
                             actionType: Telephony.Message
                             onSimSelected: {
-                                newMessagePage.send(simInfo(sim))
                                 simSelector.hide()
                             }
                         }
@@ -186,43 +217,52 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    function send(sim) {
+    function stoa(str)
+    {
+        var bytes = [];
+        var charCode;
+
+        for (var i = 0; i < str.length; ++i)
+        {
+            charCode = str.charCodeAt(i);
+            bytes.push(Number((charCode & 0xFF00) >> 8));
+            bytes.push(Number(charCode & 0xFF));
+        }
+        return bytes;
+    }
+
+    function send() {
         console.log(modemManager.voiceModemPath)
         console.log(source)
         console.log(JSON.stringify(content))
-        if (recipients.length < 0)
-            return
-        smsIf.call("SendBusinessCard", [recipients[0], JSON.stringify(content)]);
-        /*var attachments = [ ]
-
-        if (source != '') {
-            attachments.push({ "contentId": "1", "path": source })
-        } else if ('data' in content) {
-            // Android does not recognize the text/vcard type
-            var type = ('type' in content) ? content.type.replace("text/vcard", "text/x-vCard") : ""
-            var name = ('name' in content) ? content.name : "1"
-            attachments.push({ "contentId": name, "contentType": type, "freeText": content.data })
+        if (id_shareMode.currentIndex == 0) {
+            // share via SmartMessaging
+            if (recipients.length < 0)
+                return
+            smartMessagingIf.typedCall(
+                        "SendBusinessCard",
+                        [
+                            {
+                                'type': 's',
+                                'value': recipients[0]
+                            },
+                            {
+                                'type': 'ay',
+                                'value': stoa(JSON.stringify(content))
+                            }
+                        ]
+            );
         } else {
-            console.log("BUG: No content for sms share message!")
+            // send via SMS
+            smsIf.typedCall("startSMS",
+                            [
+                                {"type":"as", "value":[recipients[0]]},
+                                {"type":"s", "value": textInput.text}
+                            ]
+            );
         }
-
-        if (textInput.text != '') {
-            attachments.push({ "contentId": "2", "contentType": "text/plain", "freeText": textInput.text })
-        }
-
-        if (simImsi) {
-            // IMSI, To, CC, BCC, Subject, Parts
-            smsHelper.sendMessage(simImsi, recipients, [], [], "", attachments)
-        } else {
-            // To, CC, BCC, Subject, Parts
-            smsHelper.sendMessage(recipients, [], [], "", attachments)
-        }*/
 
         pageStack.pop()
-    }
-
-    MmsHelper {
-        id: smsHelper
     }
 
     OfonoModemManager {

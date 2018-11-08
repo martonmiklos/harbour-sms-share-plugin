@@ -50,3 +50,8 @@ debugfiles.*
 debuglinks.*
 debugsources.list
 documentation.list
+
+*.rpm
+.directory
+*.list
+*.spec
