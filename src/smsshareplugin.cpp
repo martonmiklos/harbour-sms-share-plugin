@@ -5,8 +5,10 @@
 #include <QtQml>
 #include <QQmlEngine>
 
+
 SMSSharePlugin::SMSSharePlugin()
 {
+
 }
 
 SMSSharePlugin::~SMSSharePlugin()

@@ -34,9 +34,9 @@ Requires:
 
 # All installed files
 Files:
-  - '%{_libdir}/qt5/qml/hu.mm.vCardSerializer/libvCardSerializer.so'
-  - '%{_libdir}/qt5/qml/hu.mm.vCardSerializer/qmldir'
-  - '%{_datadir}/vCardSerializer/translations/*.qm'
+  - '%{_libdir}/qt5/qml/hu/mm/vCardSerializer/libvCardSerializer.so'
+  - '%{_libdir}/qt5/qml/hu/mm/vCardSerializer/qmldir'
+#  - '%{_datadir}/vCardSerializer/translations/*.qm'
 
 # For more information about yaml and what's supported in Sailfish OS
 # build system, please see https://wiki.merproject.org/wiki/Spectacle

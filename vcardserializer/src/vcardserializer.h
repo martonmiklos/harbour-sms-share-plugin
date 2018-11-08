@@ -1,17 +1,18 @@
 #ifndef VCARDSERIALIZER_H
 #define VCARDSERIALIZER_H
 
-#include <QObject>
+#include <QQuickItem>
 
-class vCardSerializer : public QObject
+class vCardSerializer : public QQuickItem
 {
     Q_OBJECT
-public:
-    explicit vCardSerializer(QObject *parent = nullptr);
-    Q_INVOKABLE QString serialize_vCard(const QString & vCARDinJSON) const;
-signals:
+    Q_DISABLE_COPY(vCardSerializer)
 
-public slots:
+public:
+    vCardSerializer(QQuickItem *parent = nullptr);
+    ~vCardSerializer();
+
+    Q_INVOKABLE QString serialize_vCard(const QString & vCardJSON) const;
 };
 
 #endif // VCARDSERIALIZER_H

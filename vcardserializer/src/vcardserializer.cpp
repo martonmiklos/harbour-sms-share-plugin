@@ -2,19 +2,18 @@
 
 #include <QDebug>
 
-#include <QJsonDocument>
-#include <QJsonObject>
-
-vCardSerializer::vCardSerializer(QObject *parent) : QObject(parent)
+vCardSerializer::vCardSerializer(QQuickItem *parent):
+    QQuickItem(parent)
 {
-
+    qWarning() << "vCardSerializer::vCardSerializer(QObject *parent)";
 }
 
-QString vCardSerializer::serialize_vCard(const QString &vCARDinJSON) const
+vCardSerializer::~vCardSerializer()
 {
-    /**
-      /usr/share/jolla-contacts/pages/common/common.js
-    ***/
-    qWarning() << vCARDinJSON;
-    return vCARDinJSON;
+    qWarning() << "vCardSerializer::~vCardSerializer()";
+}
+
+QString vCardSerializer::serialize_vCard(const QString &vCardJSON) const
+{
+    return vCardJSON;
 }

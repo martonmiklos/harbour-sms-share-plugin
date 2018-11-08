@@ -5,21 +5,6 @@
 SMSPluginInfo::SMSPluginInfo()
     : m_ready(false)
 {
-
-}
-
-SMSPluginInfo::~SMSPluginInfo()
-{
-
-}
-
-QList<TransferMethodInfo> SMSPluginInfo::info() const
-{
-    return m_infoList;
-}
-
-void SMSPluginInfo::query()
-{
     TransferMethodInfo info;
     QStringList capabilities;
 
@@ -48,7 +33,20 @@ void SMSPluginInfo::query()
     info.accountIcon     = QStringLiteral("image://theme/icon-m-message");
 
     m_infoList << info;
+}
 
+SMSPluginInfo::~SMSPluginInfo()
+{
+
+}
+
+QList<TransferMethodInfo> SMSPluginInfo::info() const
+{
+    return m_infoList;
+}
+
+void SMSPluginInfo::query()
+{
     // Let the world know that this plugin is ready
     m_ready = true;
     emit infoReady();
