@@ -1,6 +1,8 @@
 #ifndef VCARDSERIALIZER_H
 #define VCARDSERIALIZER_H
 
+#include "vcardfield.h"
+
 #include <QQuickItem>
 
 class vCardSerializer : public QQuickItem
@@ -10,9 +12,7 @@ class vCardSerializer : public QQuickItem
 
 public:
     vCardSerializer(QQuickItem *parent = nullptr);
-    ~vCardSerializer();
-
-    Q_INVOKABLE QString serialize_vCard(const QString & vCardJSON) const;
+    Q_INVOKABLE static QString serialize_vCard(const QString & vCard);
 };
 
 #endif // VCARDSERIALIZER_H

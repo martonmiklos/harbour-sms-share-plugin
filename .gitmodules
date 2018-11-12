@@ -1,0 +1,3 @@
+[submodule "vcardserializer/Qt-Quoted-Printable"]
+	path = vcardserializer/Qt-Quoted-Printable
+	url = git@github.com:martonmiklos/Qt-Quoted-Printable.git

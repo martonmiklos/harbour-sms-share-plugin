@@ -1,19 +1,23 @@
 TEMPLATE = lib
-TARGET = vCardSerializer
+TARGET = VCardSerializer
 QT += qml quick
 CONFIG += plugin c++11
 
 TARGET = $$qtLibraryTarget($$TARGET)
-uri = hu.mm.vCardSerializer
+uri = hu.mm.VCardSerializer
+
+include(Qt-Quoted-Printable/quotedprintable.pri)
 
 # Input
 SOURCES += \
         src/vcardserializer_plugin.cpp \
-        src/vcardserializer.cpp
+        src/vcardserializer.cpp \
+    src/vcardfield.cpp
 
 HEADERS += \
         src/vcardserializer_plugin.h \
-        src/vcardserializer.h
+        src/vcardserializer.h \
+    src/vcardfield.h
 
 DISTFILES += \
     rpm/vcardserializer.changes.in \

@@ -11,7 +11,7 @@ import org.nemomobile.commhistory 1.0
 import com.jolla.connection 1.0
 import MeeGo.QOfono 0.2
 import org.nemomobile.dbus 2.0
-import hu.mm.vCardSerializer 1.0
+import hu.mm.VCardSerializer 1.0
 
 Page {
     id: newMessagePage
@@ -76,10 +76,6 @@ Page {
         filterType: PeopleModel.FilterNone
     }
 
-    vCardSerializer {
-        id: id_vCardSerializer
-    }
-
     SilicaFlickable {
         id: flickable
         focus: true
@@ -135,6 +131,7 @@ Page {
                                 onClicked:
                                 {
                                     textInput.visible = true
+                                    console.log(JSON.stringify(content.data))
                                 }
                             }
                         }
@@ -164,9 +161,13 @@ Page {
                     }
 
                     TextArea {
+                        VCardSerializer {
+                            id: id_VCardSerializer
+                        }
+
                         id: textInput
                         width: parent.width
-                        text: id_vCardSerializer.serialize_vCard(content)
+                        text: id_VCardSerializer.serialize_vCard(JSON.stringify(content.data))
                     }
                 }
             }

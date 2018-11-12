@@ -6,8 +6,9 @@
 
 void vCardSerializerPlugin::registerTypes(const char *uri)
 {
-    qWarning() << QString("\"%1\"").arg(uri) << "VCardSerializerPlugin::registerTypes";
     // @uri hu.mm.vCardSerializer
-    qmlRegisterType<vCardSerializer>(uri, 1, 0, "vCardSerializer");
+    // types always must start with a capital letter!
+    // Thanks to raven-worx: https://forum.qt.io/topic/91989/qmlregistertype-dont-recogized-into-qml-file/4
+    qmlRegisterType<vCardSerializer>(uri, 1, 0, "VCardSerializer");
 }
 
