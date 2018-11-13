@@ -76,6 +76,10 @@ Page {
         filterType: PeopleModel.FilterNone
     }
 
+    VCardSerializer {
+        id: id_VCardSerializer
+    }
+
     SilicaFlickable {
         id: flickable
         focus: true
@@ -99,9 +103,7 @@ Page {
             y: newMessagePage.isLandscape ? Theme.paddingMedium : 0
             width: flickable.width
             Item {
-                VCardSerializer {
-                    id: id_VCardSerializer
-                }
+
                 width: flickable.width
                 Column {
                     id: recipientHeader
@@ -115,7 +117,7 @@ Page {
                     {
                         id:  id_shareMode
                         label: qsTr("Method")
-                        currentIndex: 1
+                        currentIndex: 0
                         menu: ContextMenu
                         {
                             MenuItem
@@ -126,7 +128,6 @@ Page {
                                 {
                                     textInput.text = id_VCardSerializer.serialize_vCardShort(JSON.stringify(content.data))
                                     textInput.visible = true
-                                    console.log(JSON.stringify(content.data))
                                 }
                             }
                             MenuItem
@@ -137,7 +138,6 @@ Page {
                                 {
                                     textInput.text = id_VCardSerializer.serialize_vCardFull(JSON.stringify(content.data))
                                     textInput.visible = true
-                                    console.log(JSON.stringify(content.data))
                                 }
                             }
                             MenuItem

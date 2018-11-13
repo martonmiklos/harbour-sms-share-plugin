@@ -41,7 +41,7 @@ QString vCardSerializer::serialize_vCardFull(const QString &vCard)
     bool hasCompanyDetails = false;
     for (vCardField field : fields) {
         if (field.fieldType() == vCardField::FullName) {
-            ret.append(field.serializeShort());
+            ret.append(field.serializeShort() + "\n");
             hasName = true;
         }
 
@@ -53,7 +53,7 @@ QString vCardSerializer::serialize_vCardFull(const QString &vCard)
     if (!hasName) {
         for (vCardField field : fields) {
             if (field.fieldType() == vCardField::NameParts) {
-                ret.append(field.serializeShort());
+                ret.append(field.serializeShort() + "\n");
                 break;
             }
         }
@@ -76,7 +76,7 @@ QString vCardSerializer::serialize_vCardFull(const QString &vCard)
         for (vCardField field : fields) {
             if (field.fieldType() == vCardField::Organization) {
                 if (hasRole)
-                    ret.append(field.serializeShort().append('\n'));
+                    ret.append(field.serializeShort() + "\n");
                 else
                     ret.append(field.serializeFull());
                 break;
@@ -181,7 +181,7 @@ QString vCardSerializer::serialize_vCardShort(const QString &vCard)
     bool hasName = false;
     for (vCardField field : fields) {
         if (field.fieldType() == vCardField::FullName) {
-            ret.append(field.serializeShort());
+            ret.append(field.serializeShort() + "\n");
             hasName = true;
             break;
         }
@@ -190,7 +190,7 @@ QString vCardSerializer::serialize_vCardShort(const QString &vCard)
     if (!hasName) {
         for (vCardField field : fields) {
             if (field.fieldType() == vCardField::NameParts) {
-                ret.append(field.serializeShort());
+                ret.append(field.serializeShort() + "\n");
                 break;
             }
         }

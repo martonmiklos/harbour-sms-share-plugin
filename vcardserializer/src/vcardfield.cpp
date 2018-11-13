@@ -45,8 +45,39 @@ vCardField::vCardField(const QString &key, const QString & value) :
         m_value = nameParts.join(' ');
     } else if (keyParts.first() == "ADR") {
         m_fieldType = Address;
-        QStringList nameParts = m_value.split(';');
-        m_value = nameParts.join(' ');
+        QString displayFormat = QObject::tr("<pobox>, <street>, <city>, <zipcode>, <region>, <country>");
+        // key format:
+        // 0     1             2   3    4      5          6
+        // Pobox;Extended addr;Str;City;Region;Postalcode;Country
+        QStringList vCardValueParts = m_value.split(';');
+        QStringList fieldsToReplace;
+        fieldsToReplace
+                << "<pobox>"
+                << "<extaddr>"
+                << "<street>"
+                << "<city>"
+                << "<zipcode>"
+                << "<region>"
+                << "<country>";
+        for (int i = 0; i<7 && i<vCardValueParts.count(); i++) {
+            if (displayFormat.indexOf(fieldsToReplace.at(i)) == -1)
+                continue;
+
+            if (vCardValueParts.at(i).isEmpty()) {
+                int placeholderStart = displayFormat.indexOf(fieldsToReplace.at(i));
+                int placeHolderEnd = placeholderStart;
+                while (placeHolderEnd < displayFormat.count()) {
+                    if (displayFormat.at(placeHolderEnd) == '<')
+                        break;
+                    placeHolderEnd++;
+                }
+                displayFormat = displayFormat.remove(placeholderStart, placeHolderEnd - placeholderStart);
+            } else {
+                displayFormat = displayFormat.replace(fieldsToReplace.at(i), vCardValueParts.at(i));
+            }
+        }
+
+        m_value = displayFormat;
         // TODO add ordering support
     } else if (keyParts.first() == "URL") {
         m_fieldType = Url;
