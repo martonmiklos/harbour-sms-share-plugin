@@ -29,18 +29,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Home %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Work %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Other %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Home email: %1
 </source>
         <translation type="unfinished"></translation>
@@ -66,17 +54,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Address: %1
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Website: %1
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Birthday: %1
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;pobox&gt;, &lt;street&gt;, &lt;city&gt;, &lt;zipcode&gt;, &lt;region&gt;, &lt;country&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Home%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Addr: %1
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Web: %1
 </source>
         <translation type="unfinished"></translation>
     </message>
