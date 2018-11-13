@@ -12,7 +12,8 @@ class vCardSerializer : public QQuickItem
 
 public:
     vCardSerializer(QQuickItem *parent = nullptr);
-    Q_INVOKABLE static QString serialize_vCard(const QString & vCard);
+    Q_INVOKABLE static QString serialize_vCardFull(const QString & vCard);
+    Q_INVOKABLE static QString serialize_vCardShort(const QString & vCard);
 };
 
 #endif // VCARDSERIALIZER_H

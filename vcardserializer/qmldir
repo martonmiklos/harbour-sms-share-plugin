@@ -1,2 +1,2 @@
-module hu.mm.VCardSerializer
-plugin VCardSerializer
+module hu.mm.vCardSerializer
+plugin vCardSerializer

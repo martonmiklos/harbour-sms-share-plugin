@@ -11,7 +11,7 @@ import org.nemomobile.commhistory 1.0
 import com.jolla.connection 1.0
 import MeeGo.QOfono 0.2
 import org.nemomobile.dbus 2.0
-import hu.mm.VCardSerializer 1.0
+import hu.mm.vCardSerializer 1.0
 
 Page {
     id: newMessagePage
@@ -99,39 +99,54 @@ Page {
             y: newMessagePage.isLandscape ? Theme.paddingMedium : 0
             width: flickable.width
             Item {
+                VCardSerializer {
+                    id: id_VCardSerializer
+                }
                 width: flickable.width
                 Column {
                     id: recipientHeader
                     width: parent.width
                     PageHeader {
-                        //% "New message"
+                        //% "Share contact via SMS"
                         title: qsTrId("sms-share-la-new_message")
                         visible: newMessagePage.isPortrait
                     }
                     ComboBox
                     {
                         id:  id_shareMode
-                        label: qsTr("Sharing method")
+                        label: qsTr("Method")
                         currentIndex: 1
                         menu: ContextMenu
                         {
                             MenuItem
                             {
-                                id: shareTypevCARD
-                                text: qsTr("vCARD in SmartMessaging format")
+                                id: shareTypePlainTextShort
+                                text: qsTr("Short plaintext")
                                 onClicked:
                                 {
-                                    textInput.visible = false
+                                    textInput.text = id_VCardSerializer.serialize_vCardShort(JSON.stringify(content.data))
+                                    textInput.visible = true
+                                    console.log(JSON.stringify(content.data))
                                 }
                             }
                             MenuItem
                             {
                                 id: shareTypePlainText
-                                text: qsTr("Plaintext SMS")
+                                text: qsTr("Full plaintext")
                                 onClicked:
                                 {
+                                    textInput.text = id_VCardSerializer.serialize_vCardFull(JSON.stringify(content.data))
                                     textInput.visible = true
                                     console.log(JSON.stringify(content.data))
+                                }
+                            }
+                            MenuItem
+                            {
+                                id: shareTypevCARD
+                                text: qsTr("SmartMessaging vCard")
+                                onClicked:
+                                {
+                                    textInput.visible = false
                                 }
                             }
                         }
@@ -161,13 +176,9 @@ Page {
                     }
 
                     TextArea {
-                        VCardSerializer {
-                            id: id_VCardSerializer
-                        }
-
                         id: textInput
                         width: parent.width
-                        text: id_VCardSerializer.serialize_vCard(JSON.stringify(content.data))
+                        text: id_VCardSerializer.serialize_vCardShort(JSON.stringify(content.data))
                     }
                 }
             }

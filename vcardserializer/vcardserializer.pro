@@ -1,10 +1,10 @@
 TEMPLATE = lib
-TARGET = VCardSerializer
+TARGET = vCardSerializer
 QT += qml quick
 CONFIG += plugin c++11
 
 TARGET = $$qtLibraryTarget($$TARGET)
-uri = hu.mm.VCardSerializer
+uri = hu.mm.vCardSerializer
 
 include(Qt-Quoted-Printable/quotedprintable.pri)
 
@@ -31,7 +31,8 @@ DISTFILES += \
 # planning to localize your app, remember to comment out the
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
-TRANSLATIONS += translations/vcardserializer-de.ts
+TRANSLATIONS += translations/vcardserializer-de.ts  \
+        translations/vcardserializer-hu.ts
 
 
 target.path = $$[QT_INSTALL_QML]/$$PLUGIN_IMPORT_PATH/$$replace(uri, \\., /)
@@ -41,3 +42,6 @@ qmldir.files += $$PWD/qmldir
 qmldir.path +=  $$target.path
 INSTALLS += qmldir
 
+translations.files += $$PWD/translations/*.qm
+translations.path += $$[QT_INSTALL_DATA]/../$$TARGET/translations
+INSTALLS += translations

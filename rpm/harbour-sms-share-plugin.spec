@@ -23,6 +23,7 @@ BuildRequires: pkgconfig(nemotransferengine-qt5)
 
 Requires:  libnemotransferengine-qt5 >= 0.3.1
 Requires:  declarative-transferengine-qt5 >= 0.0.44
+#Requires:  vcardserializer >= 0.1.0
 
 %description
 %{summary}.

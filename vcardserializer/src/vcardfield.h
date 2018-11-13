@@ -6,7 +6,7 @@
 class vCardField
 {
 public:
-    vCardField(const QString & key, const QString value);
+    vCardField(const QString & key, const QString &value);
 
     enum FieldType {
         FullName,

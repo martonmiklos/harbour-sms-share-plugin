@@ -5,20 +5,20 @@
 #include <QString>
 #include <QStringList>
 
-vCardField::vCardField(const QString &key, const QString value) :
+vCardField::vCardField(const QString &key, const QString & value) :
     m_key(key),
     m_value(value)
 {
     QStringList keyParts = key.split(';');
 
-    if (keyParts.contains("ENCODING=QUOTED-PRINTABLE"))
+    if (keyParts.contains(QStringLiteral("ENCODING=QUOTED-PRINTABLE")))
         m_value = QuotedPrintable::decode(m_value.toLocal8Bit());
 
-    if (keyParts.contains("HOME"))
+    if (keyParts.contains(QStringLiteral("HOME")))
         m_label = Home;
-    else if (keyParts.contains("WORK"))
+    else if (keyParts.contains(QStringLiteral("WORK")))
         m_label = Work;
-    else if (keyParts.contains("OTHER"))
+    else if (keyParts.contains(QStringLiteral("OTHER")))
         m_label = Other;
 
     if (keyParts.first() == QStringLiteral("FN")) {
@@ -29,6 +29,12 @@ vCardField::vCardField(const QString &key, const QString value) :
         m_value = nameParts.join(' ');
     } else if (keyParts.first() == "TEL") {
         m_fieldType = Phone;
+        if (keyParts.contains("CELL"))
+            m_phoneType = Mobile;
+        else if (keyParts.contains("VIDEO"))
+            m_phoneType = Video;
+        else if (keyParts.contains("VIDEO"))
+            m_phoneType = Video;
     } else if (keyParts.first() == "EMAIL") {
         m_fieldType = Email;
     } else if (keyParts.first() == "ROLE") {
@@ -82,23 +88,28 @@ QString vCardField::serializeFull()
             break;
         }
 
+        if (m_label != UnknownLabel && !phoneTypeString.isEmpty()) {
+            phoneTypeString = phoneTypeString.prepend(" ").toLower();
+        }
+
         switch (m_label) {
         case vCardField::Home:
-            phoneTypeString = QObject::tr("Home %1").arg(phoneTypeString.toLower());
+            phoneTypeString = QObject::tr("Home%1").arg(phoneTypeString);
             break;
         case vCardField::Work:
-            phoneTypeString = QObject::tr("Work %1").arg(phoneTypeString.toLower());
+            phoneTypeString = QObject::tr("Work%1").arg(phoneTypeString);
             break;
         case vCardField::Other:
-            phoneTypeString = QObject::tr("Other %1").arg(phoneTypeString.toLower());
+            phoneTypeString = QObject::tr("Other%1").arg(phoneTypeString);
             break;
         case UnknownLabel:
         default:
             break;
         }
+
         if (phoneTypeString.isEmpty())
             return m_value;
-        return QString("%1: %2\n").arg(phoneTypeString).arg(m_value);
+        return QString("%1: %2\n").arg(phoneTypeString, m_value);
         break;
     }
 
@@ -123,10 +134,10 @@ QString vCardField::serializeFull()
         return QObject::tr("Company: %1\n").arg(m_value);
         break;
     case vCardField::Address:
-        return QObject::tr("Address: %1\n").arg(m_value);
+        return QObject::tr("Addr: %1\n").arg(m_value);
         break;
     case vCardField::Url:
-        return QObject::tr("Website: %1\n").arg(m_value);
+        return QObject::tr("Web: %1\n").arg(m_value);
         break;
     case vCardField::BirthDay:
         return QObject::tr("Birthday: %1\n").arg(m_value);
@@ -142,7 +153,6 @@ QString vCardField::serializeFull()
 
 QString vCardField::serializeShort()
 {
-    return serializeFull();
     switch (m_fieldType) {
     case vCardField::FullName:
         return m_value;

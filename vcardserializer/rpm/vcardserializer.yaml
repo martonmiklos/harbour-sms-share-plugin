@@ -1,18 +1,18 @@
 Name: vcardserializer
-Summary: VCardSerializer
+Summary: vCardSerializer
 Version: 0.1
 Release: 1
 # The contents of the Group field should be one of the groups listed here:
 # https://github.com/mer-tools/spectacle/blob/master/data/GROUPS
 Group: Qt/Qt
-URL: http://example.org/
-License: LICENSE
+URL: https://github.com/martonmiklos/harbour-sms-share-plugin/tree/master/vcardserializer
+License: MIT
 # This must be generated before uploading a package to a remote build service.
 # Usually this line does not need to be modified.
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
-  Library for serializing vCard files to human readable text
+  Library for serializing vCard data to human readable text
 Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution
@@ -21,7 +21,6 @@ Builder: qtc5
 # This section specifies build dependencies that are resolved using pkgconfig.
 # This is the preferred way of specifying build dependencies for your package.
 PkgConfigBR:
-  - sailfishapp >= 1.0.2
   - Qt5Core
   - Qt5Qml
 
@@ -34,9 +33,9 @@ Requires:
 
 # All installed files
 Files:
-  - '%{_libdir}/qt5/qml/hu/mm/VCardSerializer/libVCardSerializer.so'
-  - '%{_libdir}/qt5/qml/hu/mm/VCardSerializer/qmldir'
-#  - '%{_datadir}/VCardSerializer/translations/*.qm'
+  - '%{_libdir}/qt5/qml/hu/mm/vCardSerializer/libvCardSerializer.so'
+  - '%{_libdir}/qt5/qml/hu/mm/vCardSerializer/qmldir'
+  - '%{_datadir}/vCardSerializer/translations/*.qm'
 
 # For more information about yaml and what's supported in Sailfish OS
 # build system, please see https://wiki.merproject.org/wiki/Spectacle
