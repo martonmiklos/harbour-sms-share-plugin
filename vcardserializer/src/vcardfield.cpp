@@ -33,8 +33,6 @@ vCardField::vCardField(const QString &key, const QString & value) :
             m_phoneType = Mobile;
         else if (keyParts.contains("VIDEO"))
             m_phoneType = Video;
-        else if (keyParts.contains("VIDEO"))
-            m_phoneType = Video;
     } else if (keyParts.first() == "EMAIL") {
         m_fieldType = Email;
     } else if (keyParts.first() == "ROLE") {
@@ -52,33 +50,39 @@ vCardField::vCardField(const QString &key, const QString & value) :
         QStringList vCardValueParts = m_value.split(';');
         QStringList fieldsToReplace;
         fieldsToReplace
-                << "<pobox>"
-                << "<extaddr>"
-                << "<street>"
-                << "<city>"
-                << "<zipcode>"
-                << "<region>"
-                << "<country>";
-        for (int i = 0; i<7 && i<vCardValueParts.count(); i++) {
-            if (displayFormat.indexOf(fieldsToReplace.at(i)) == -1)
+                << "pobox"
+                << "extaddr"
+                << "street"
+                << "city"
+                << "zipcode"
+                << "region"
+                << "country";
+        int i = 0;
+        for (const QString & currentField : fieldsToReplace) {
+            int placeholderStart = displayFormat.indexOf(currentField);
+            if (placeholderStart == -1)
                 continue;
 
-            if (vCardValueParts.at(i).isEmpty()) {
-                int placeholderStart = displayFormat.indexOf(fieldsToReplace.at(i));
-                int placeHolderEnd = placeholderStart;
-                while (placeHolderEnd < displayFormat.count()) {
+            if (vCardValueParts.count() <= i
+                    || vCardValueParts.at(i).isEmpty()
+                    || vCardValueParts.at(i) == QStringLiteral("=")) { // HACK for malformed? vCard fields
+                int placeHolderEnd = placeholderStart + 1;
+                while (placeHolderEnd < displayFormat.length()) {
                     if (displayFormat.at(placeHolderEnd) == '<')
                         break;
                     placeHolderEnd++;
                 }
                 displayFormat = displayFormat.remove(placeholderStart, placeHolderEnd - placeholderStart);
             } else {
-                displayFormat = displayFormat.replace(fieldsToReplace.at(i), vCardValueParts.at(i));
+                displayFormat = displayFormat.replace(currentField, vCardValueParts.at(i));
             }
+            i++;
         }
 
+        int firstOpen = displayFormat.indexOf('<');
+        displayFormat = displayFormat.mid(firstOpen, displayFormat.lastIndexOf('>') - firstOpen);
+        displayFormat = displayFormat.remove('<').remove('>');
         m_value = displayFormat;
-        // TODO add ordering support
     } else if (keyParts.first() == "URL") {
         m_fieldType = Url;
     } else if (keyParts.first() == "BDAY") {
@@ -90,7 +94,23 @@ vCardField::vCardField(const QString &key, const QString & value) :
 
 }
 
-QString vCardField::serializeFull()
+bool vCardField::operator ==(const vCardField &other)
+{
+    return m_value == other.serializeShort()
+            && m_label == other.label()
+            && m_phoneType == other.phoneType()
+            && m_fieldType == other.fieldType();
+}
+
+bool vCardField::operator !=(const vCardField &other)
+{
+    return !(m_value == other.serializeShort()
+            && m_label == other.label()
+            && m_phoneType == other.phoneType()
+            && m_fieldType == other.fieldType());
+}
+
+QString vCardField::serializeFull() const
 {
     switch (m_fieldType) {
     case vCardField::FullName:
@@ -182,7 +202,7 @@ QString vCardField::serializeFull()
     }
 }
 
-QString vCardField::serializeShort()
+QString vCardField::serializeShort() const
 {
     switch (m_fieldType) {
     case vCardField::FullName:
@@ -224,4 +244,9 @@ vCardField::Label vCardField::label() const
 vCardField::FieldType vCardField::fieldType() const
 {
     return m_fieldType;
+}
+
+vCardField::PhoneType vCardField::phoneType() const
+{
+    return m_phoneType;
 }

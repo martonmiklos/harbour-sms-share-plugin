@@ -7,6 +7,8 @@ class vCardField
 {
 public:
     vCardField(const QString & key, const QString &value);
+    bool operator ==(const vCardField & other);
+    bool operator !=(const vCardField & other);
 
     enum FieldType {
         FullName,
@@ -38,11 +40,11 @@ public:
         UnknownPhoneType
     };
 
-    QString serializeFull();
-    QString serializeShort();
+    QString serializeFull() const;
+    QString serializeShort() const;
     Label label() const;
-
     FieldType fieldType() const;
+    PhoneType phoneType() const;
 
 private:
     FieldType m_fieldType;

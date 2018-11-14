@@ -15,6 +15,7 @@ SMSUploader::~SMSUploader()
 
 QString SMSUploader::displayName() const
 {
+    //% "SMS"
     return qtTrId("harbour-sms-share-plugin-id");
 }
 

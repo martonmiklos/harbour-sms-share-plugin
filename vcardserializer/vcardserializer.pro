@@ -31,8 +31,7 @@ DISTFILES += \
 # planning to localize your app, remember to comment out the
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
-TRANSLATIONS += translations/vcardserializer-de.ts  \
-        translations/vcardserializer-hu.ts
+TRANSLATIONS += translations/vcardserializer-hu_HU.ts
 
 
 target.path = $$[QT_INSTALL_QML]/$$PLUGIN_IMPORT_PATH/$$replace(uri, \\., /)
@@ -43,5 +42,5 @@ qmldir.path +=  $$target.path
 INSTALLS += qmldir
 
 translations.files += $$PWD/translations/*.qm
-translations.path += $$[QT_INSTALL_DATA]/../$$TARGET/translations
+translations.path += $$[QT_INSTALL_DATA]/../translations
 INSTALLS += translations

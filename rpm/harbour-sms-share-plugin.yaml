@@ -1,18 +1,18 @@
-Name: vcardserializer
-Summary: vCardSerializer
+Name: harbour-sms-share-plugin
+Summary: SMS sharing plugin
 Version: 1.0
 Release: 1
 # The contents of the Group field should be one of the groups listed here:
 # https://github.com/mer-tools/spectacle/blob/master/data/GROUPS
 Group: Qt/Qt
-URL: https://github.com/martonmiklos/harbour-sms-share-plugin/tree/master/vcardserializer
+URL: https://github.com/martonmiklos/harbour-sms-share-plugin
 License: MIT
 # This must be generated before uploading a package to a remote build service.
 # Usually this line does not need to be modified.
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
-  Library for serializing vCard data to human readable text
+  Nem transferengine plugin for sharing contact data via SMS
 Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution
@@ -23,6 +23,8 @@ Builder: qtc5
 PkgConfigBR:
   - Qt5Core
   - Qt5Qml
+  - nemotransferengine-qt5
+  - Qt5DBus
 
 # Build dependencies without a pkgconfig setup can be listed here
 # PkgBR:
@@ -30,12 +32,14 @@ PkgConfigBR:
 
 # Runtime dependencies which are not automatically detected
 Requires:
-
+  - libnemotransferengine-qt5 >= 0.3.1
+  - declarative-transferengine-qt5 >= 0.0.44
+  - vcardserializer >= 1.0
 # All installed files
 Files:
-  - '%{_libdir}/qt5/qml/hu/mm/vCardSerializer/libvCardSerializer.so'
-  - '%{_libdir}/qt5/qml/hu/mm/vCardSerializer/qmldir'
-  - '%{_datadir}/translations/*.qm'
+  - '%{_libdir}/nemo-transferengine/plugins/*shareplugin.so'
+  - '%{_datadir}/nemo-transferengine/plugins/SmsShare.qml'
+  - '%{_datadir}/translations/nemotransferengine/*.qm'
 
 # For more information about yaml and what's supported in Sailfish OS
 # build system, please see https://wiki.merproject.org/wiki/Spectacle

@@ -14,9 +14,9 @@ SMSPluginInfo::SMSPluginInfo()
     // TODO: Translations for 3rd party plugins is not yet supported by Sailfish OS.
     //       Adding support there later, but for now just use what ever non-translated
     //       string here. This string will be visible in the share method list.
-    //: Display name for SMS share plugin
-    // "SMS"
-    info.displayName     = qtTrId("SMS");
+    //: Display name for SMS share plugin, just translate as SMS
+    //% "SMS"
+    info.displayName     = qtTrId("sms-share-la-plugin_name");
 
     // Method ID is a unique identifier for this plugin. It is used to identify which share plugin should be
     // used for starting the sharing.

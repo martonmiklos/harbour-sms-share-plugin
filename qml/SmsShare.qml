@@ -80,6 +80,19 @@ Page {
         id: id_VCardSerializer
     }
 
+    onContentChanged: {
+        console.log(content.data);
+        id_VCardSerializer.setVCardData(JSON.stringify(content.data));
+        switch (id_shareMode.currentIndex) {
+        case 0:
+            textInput.text = id_VCardSerializer.serialize_vCardShort();
+            break;
+        case 1:
+            textInput.text = id_VCardSerializer.serialize_vCardFull();
+            break;
+        }
+    }
+
     SilicaFlickable {
         id: flickable
         focus: true
@@ -93,7 +106,8 @@ Page {
             id: menu
             MenuItem
             {
-                text: qsTr("Send")
+                //% "Send"
+                text: qsTrId("sms-share-la-send")
                 onClicked: send()
             }
         }
@@ -116,34 +130,38 @@ Page {
                     ComboBox
                     {
                         id:  id_shareMode
-                        label: qsTr("Method")
+                        //% "Method"
+                        label: qsTrId("sms-share-la-method")
                         currentIndex: 0
                         menu: ContextMenu
                         {
                             MenuItem
                             {
                                 id: shareTypePlainTextShort
-                                text: qsTr("Short plaintext")
+                                //% "Short plaintext"
+                                text: qsTrId("sms-share-la-short_plaintext")
                                 onClicked:
                                 {
-                                    textInput.text = id_VCardSerializer.serialize_vCardShort(JSON.stringify(content.data))
+                                    textInput.text = id_VCardSerializer.serialize_vCardShort()
                                     textInput.visible = true
                                 }
                             }
                             MenuItem
                             {
                                 id: shareTypePlainText
-                                text: qsTr("Full plaintext")
+                                //% "Full plaintext"
+                                text: qsTrId("sms-share-la-full_plaintext")
                                 onClicked:
                                 {
-                                    textInput.text = id_VCardSerializer.serialize_vCardFull(JSON.stringify(content.data))
+                                    textInput.text = id_VCardSerializer.serialize_vCardFull()
                                     textInput.visible = true
                                 }
                             }
                             MenuItem
                             {
                                 id: shareTypevCARD
-                                text: qsTr("SmartMessaging vCard")
+                                //% "SmartMessaging vCard"
+                                text: qsTrId("sms-share-la-smartmessaging_vcard")
                                 onClicked:
                                 {
                                     textInput.visible = false
@@ -178,7 +196,6 @@ Page {
                     TextArea {
                         id: textInput
                         width: parent.width
-                        text: id_VCardSerializer.serialize_vCardShort(JSON.stringify(content.data))
                     }
                 }
             }
@@ -247,7 +264,7 @@ Page {
         console.log(modemManager.voiceModemPath)
         console.log(source)
         console.log(JSON.stringify(content))
-        if (id_shareMode.currentIndex == 0) {
+        if (id_shareMode.currentIndex == 3) {
             // share via SmartMessaging
             if (recipients.length < 0)
                 return
