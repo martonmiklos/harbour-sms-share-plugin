@@ -2,6 +2,7 @@
 
 #include "Qt-Quoted-Printable/quotedprintable.h"
 
+#include <qglobal.h>
 #include <QString>
 #include <QStringList>
 
@@ -43,7 +44,7 @@ vCardField::vCardField(const QString &key, const QString & value) :
         m_value = nameParts.join(' ');
     } else if (keyParts.first() == "ADR") {
         m_fieldType = Address;
-        QString displayFormat = QObject::tr("<pobox>, <street>, <city>, <zipcode>, <region>, <country>");
+        QString displayFormat = qtTrId("contacts-la-address_display_format");
         // key format:
         // 0     1             2   3    4      5          6
         // Pobox;Extended addr;Str;City;Region;Postalcode;Country
@@ -115,25 +116,25 @@ QString vCardField::serializeFull() const
     switch (m_fieldType) {
     case vCardField::FullName:
     case vCardField::NameParts:
-        return QObject::tr("Name: %1\n").arg(m_value);
+        return m_value;
         break;
     case vCardField::Phone: {
         QString phoneTypeString;
         switch (m_phoneType) {
         case vCardField::Assistant:
-            phoneTypeString = QObject::tr("Assistant");
+            phoneTypeString = qtTrId("contacts-la-detail_type_phone_assistant");
             break;
         case vCardField::Fax:
-            phoneTypeString = QObject::tr("Fax");
+            phoneTypeString = qtTrId("contacts-la-detail_type_phone_fax");
             break;
         case vCardField::Pager:
-            phoneTypeString = QObject::tr("Pager");
+            phoneTypeString = qtTrId("contacts-la-detail_type_phone_pager");
             break;
         case vCardField::Video:
-            phoneTypeString = QObject::tr("Video");
+            phoneTypeString = qtTrId("contacts-la-detail_type_phone_video");
             break;
         case vCardField::Mobile:
-            phoneTypeString = QObject::tr("Mobile");
+            phoneTypeString = qtTrId("contacts-la-detail_type_phone_mobile");
             break;
         default:
             break;
@@ -145,13 +146,16 @@ QString vCardField::serializeFull() const
 
         switch (m_label) {
         case vCardField::Home:
-            phoneTypeString = QObject::tr("Home%1").arg(phoneTypeString);
+            phoneTypeString = QString("%1%2")
+                    .arg(qtTrId("contacts-la-short_detail_label_personal"), phoneTypeString);
             break;
         case vCardField::Work:
-            phoneTypeString = QObject::tr("Work%1").arg(phoneTypeString);
+            phoneTypeString = QString("%1%2")
+                    .arg(qtTrId("contacts-la-short_detail_label_work"), phoneTypeString);
             break;
         case vCardField::Other:
-            phoneTypeString = QObject::tr("Other%1").arg(phoneTypeString);
+            phoneTypeString = QString("%1%2")
+                    .arg(qtTrId("contacts-la-short_detail_label_other"), phoneTypeString);
             break;
         case UnknownLabel:
         default:
@@ -167,31 +171,45 @@ QString vCardField::serializeFull() const
     case vCardField::Email:
         switch (m_label) {
         case vCardField::Home:
-            return QObject::tr("Home email: %1\n").arg(m_value);
+            return QString("%1 %2: %3\n")
+                    .arg(qtTrId("contacts-la-short_detail_label_personal"),
+                         qtTrId("contacts-la-detail_type_email").toLower(),
+                         m_value);
             break;
         case vCardField::Work:
-            return QObject::tr("Work email: %1\n").arg(m_value);
+            return QString("%1 %2: %3\n")
+                    .arg(qtTrId("contacts-la-short_detail_label_work"),
+                         qtTrId("contacts-la-detail_type_email").toLower(),
+                         m_value);
             break;
         case vCardField::Other:
-            return QObject::tr("Other email: %1\n").arg(m_value);
+            return QString("%1 %2: %3\n")
+                    .arg(qtTrId("contacts-la-short_detail_label_other"),
+                         qtTrId("contacts-la-detail_type_email").toLower(),
+                         m_value);
             break;
         case UnknownLabel:
         default:
             break;
         }
-        return QObject::tr("Email: %1\n").arg(m_value);
+        return QString("%1: %2\n")
+                .arg(qtTrId("contacts-la-detail_type_emai"), m_value);
         break;
     case vCardField::Organization:
-        return QObject::tr("Company: %1\n").arg(m_value);
+        return QString("%1: %2\n")
+                .arg(qtTrId("contacts-la-detail_type-company"), m_value);
         break;
     case vCardField::Address:
-        return QObject::tr("Addr: %1\n").arg(m_value);
+        return QString("%1: %2\n")
+                .arg(qtTrId("contacts-la-detail_type_address"), m_value);
         break;
     case vCardField::Url:
-        return QObject::tr("Web: %1\n").arg(m_value);
+        return QString("%1: %2\n")
+                .arg(qtTrId("contacts-la-detail_type_website_homepage"), m_value);
         break;
     case vCardField::BirthDay:
-        return QObject::tr("Birthday: %1\n").arg(m_value);
+        return QString("%1: %2\n")
+                .arg(qtTrId("contacts-la-detail_type_birthday"), m_value);
         break;
     case vCardField::Role:
         return m_value;

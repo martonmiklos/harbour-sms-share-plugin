@@ -2,12 +2,18 @@
 
 #include "Qt-Quoted-Printable/quotedprintable.h"
 
+#include <QLocale>
 #include <QString>
 #include <QStringList>
+#include <QTranslator>
 
 vCardSerializer::vCardSerializer(QQuickItem *parent) :
     QQuickItem(parent)
 {
+    QTranslator translator;
+    // look up e.g. :/translations/myapp_de.qm
+    if (translator.load(QLocale(), QLatin1String("jolla-contacts"), QLatin1String("_"), QLatin1String("/usr/share/translations")))
+        QCoreApplication::installTranslator(&translator);
 }
 
 QString vCardSerializer::serialize_vCardFull()
@@ -50,7 +56,7 @@ QString vCardSerializer::serialize_vCardFull()
                 // if role and organization is present
                 // serialize in as a CTO at ACME Ltd. form
                 ret.append(field.serializeFull());
-                ret.append(tr(" at "));
+                ret.append(" - ");
                 break;
             }
         }
@@ -106,7 +112,6 @@ QString vCardSerializer::serialize_vCardFull()
 
         if (field.fieldType() == vCardField::Email) {
             ret.append(field.serializeFull());
-            break;
         }
     }
 
@@ -124,21 +129,18 @@ QString vCardSerializer::serialize_vCardFull()
     for (vCardField field : m_fields) {
         if (field.fieldType() == vCardField::Address) {
             ret.append(field.serializeFull());
-            break;
         }
     }
 
     for (vCardField field : m_fields) {
         if (field.fieldType() == vCardField::Url) {
             ret.append(field.serializeFull());
-            break;
         }
     }
 
     for (vCardField field : m_fields) {
         if (field.fieldType() == vCardField::BirthDay) {
             ret.append(field.serializeFull());
-            break;
         }
     }
 
