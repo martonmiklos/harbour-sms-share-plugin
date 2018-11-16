@@ -116,7 +116,7 @@ QString vCardField::serializeFull() const
     switch (m_fieldType) {
     case vCardField::FullName:
     case vCardField::NameParts:
-        return m_value;
+        return m_value + "\n";
         break;
     case vCardField::Phone: {
         QString phoneTypeString;
@@ -163,7 +163,7 @@ QString vCardField::serializeFull() const
         }
 
         if (phoneTypeString.isEmpty())
-            return m_value;
+            return m_value + "\n";
         return QString("%1: %2\n").arg(phoneTypeString, m_value);
         break;
     }

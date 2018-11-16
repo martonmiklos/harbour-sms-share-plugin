@@ -24,7 +24,8 @@ OTHER_FILES += \
     rpm/* \
     translations/*.ts
 
-TRANSLATIONS += translations/harbour-sms-share-plugin-hu_HU.ts
+TRANSLATIONS += translations/harbour-sms-share-plugin.ts \
+                translations/harbour-sms-share-plugin-hu_HU.ts
 
 shareui.files = qml/SmsShare.qml
 shareui.path = /usr/share/nemo-transferengine/plugins

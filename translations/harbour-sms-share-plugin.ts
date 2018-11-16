@@ -9,29 +9,29 @@
     </message>
     <message id="sms-share-la-new_message">
         <source>Share contact via SMS</source>
-        <translation>Névjegy megosztása SMS-ben</translation>
+        <translation>Share contact via SMS</translation>
     </message>
     <message id="sms-share-ph-recipient">
         <source>Recipient</source>
         <extracomment>A single recipient</extracomment>
-        <translation>Címzett</translation>
+        <translation>Recipient</translation>
     </message>
     <message id="sms-share-ph-recipients">
         <source>Recipients</source>
         <extracomment>Summary of all selected recipients, e.g. &quot;Bob, Jane, 75553243&quot;</extracomment>
-        <translation>Címzettek</translation>
+        <translation>Recipients</translation>
     </message>
     <message id="sms-share-la-method">
         <source>Method</source>
-        <translation>Mód</translation>
+        <translation>Method</translation>
     </message>
     <message id="sms-share-la-short_plaintext">
         <source>Short plaintext</source>
-        <translation>Rövid</translation>
+        <translation>Short plaintext</translation>
     </message>
     <message id="sms-share-la-full_plaintext">
         <source>Full plaintext</source>
-        <translation>Minden adat</translation>
+        <translation>Full plaintext</translation>
     </message>
     <message id="sms-share-la-smartmessaging_vcard">
         <source>SmartMessaging vCard</source>
@@ -39,7 +39,7 @@
     </message>
     <message id="sms-share-la-send">
         <source>Send</source>
-        <translation>Küldés</translation>
+        <translation>Send</translation>
     </message>
     <message id="sms-share-la-plugin_name">
         <source>SMS</source>
