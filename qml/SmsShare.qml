@@ -81,6 +81,7 @@ Page {
     }
 
     onContentChanged: {
+        console.log(JSON.stringify(content));
         if (content.type === "text/vcard")
             id_VCardSerializer.setVCardData(JSON.stringify(content.data));
         updateTextItem(id_shareMode.currentIndex);
@@ -116,8 +117,7 @@ Page {
                     id: recipientHeader
                     width: parent.width
                     PageHeader {
-                        //% "Share contact via SMS"
-                        title: qsTrId("sms-share-la-new_message")
+                        text: title()
                         visible: newMessagePage.isPortrait
                     }
                     ComboBox
@@ -126,6 +126,7 @@ Page {
                         //% "Method"
                         label: qsTrId("sms-share-la-method")
                         currentIndex: 0
+                        visible: content.type !== "text/plain"
                         menu: ContextMenu
                         {
                             MenuItem
@@ -309,6 +310,22 @@ Page {
                 textInput.text = content.linkTitle + "\n" + content.status
                 break;
             }
+        } else if (content.type === "text/plain") {
+            textInput.text = content.data
+        }
+    }
+
+    function title()
+    {
+        if (content.type === "text/vcard") {
+            //% "Share contact via SMS"
+            return qsTrId("sms-share-la-new_message")
+        } else if (content.type === "text/x-url"){
+            //% "Share link via SMS"
+            return qsTrId("sms-share-la-new_message_from_url")
+        } else if (content.type === "text/plain") {
+            //% "Share text via SMS"
+            return qsTrId("sms-share-la-new_message_from_plaintext")
         }
     }
 

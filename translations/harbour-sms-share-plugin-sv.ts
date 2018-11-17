@@ -46,5 +46,13 @@
         <extracomment>Display name for SMS share plugin, just translate as SMS</extracomment>
         <translation>SMS</translation>
     </message>
+    <message id="sms-share-la-new_message_from_url">
+        <source>Share link via SMS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="sms-share-la-new_message_from_plaintext">
+        <source>Share text via SMS</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

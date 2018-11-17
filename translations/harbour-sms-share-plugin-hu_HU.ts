@@ -9,7 +9,7 @@
     </message>
     <message id="sms-share-la-new_message">
         <source>Share contact via SMS</source>
-        <translation>Névjegy megosztása SMS-ben</translation>
+        <translation>Névjegy küldése SMS-ben</translation>
     </message>
     <message id="sms-share-ph-recipient">
         <source>Recipient</source>
@@ -45,6 +45,14 @@
         <source>SMS</source>
         <extracomment>Display name for SMS share plugin, just translate as SMS</extracomment>
         <translation>SMS</translation>
+    </message>
+    <message id="sms-share-la-new_message_from_url">
+        <source>Share link via SMS</source>
+        <translation>Link küldése SMS-ben</translation>
+    </message>
+    <message id="sms-share-la-new_message_from_plaintext">
+        <source>Share text via SMS</source>
+        <translation>Szöveg küldése SMS-ben</translation>
     </message>
 </context>
 </TS>

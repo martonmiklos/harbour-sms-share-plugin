@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="hu_HU">
+<TS version="2.1" language="hu_HU">
 <context>
     <name></name>
     <message id="harbour-sms-share-plugin-id">
@@ -45,6 +45,14 @@
         <source>SMS</source>
         <extracomment>Display name for SMS share plugin, just translate as SMS</extracomment>
         <translation>SMS</translation>
+    </message>
+    <message id="sms-share-la-new_message_from_url">
+        <source>Share link via SMS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="sms-share-la-new_message_from_plaintext">
+        <source>Share text via SMS</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
