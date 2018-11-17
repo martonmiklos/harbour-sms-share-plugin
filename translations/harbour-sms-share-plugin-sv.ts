@@ -48,11 +48,11 @@
     </message>
     <message id="sms-share-la-new_message_from_url">
         <source>Share link via SMS</source>
-        <translation type="unfinished"></translation>
+        <translation>Dela länk via SMS</translation>
     </message>
     <message id="sms-share-la-new_message_from_plaintext">
         <source>Share text via SMS</source>
-        <translation type="unfinished"></translation>
+        <translation>Dela text via SMS</translation>
     </message>
 </context>
 </TS>
