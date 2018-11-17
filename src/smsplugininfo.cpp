@@ -9,7 +9,7 @@ SMSPluginInfo::SMSPluginInfo()
     QStringList capabilities;
 
     // Capabilites ie. what mimetypes this plugin supports
-    capabilities << QLatin1String("text/vcard");
+    capabilities << QLatin1String("text/vcard") << QLatin1String("text/x-url");
 
     // TODO: Translations for 3rd party plugins is not yet supported by Sailfish OS.
     //       Adding support there later, but for now just use what ever non-translated

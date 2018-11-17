@@ -20,11 +20,11 @@ HEADERS += \
     src/vcardfield.h
 
 DISTFILES += \
-    rpm/vcardserializer.changes.in \
     rpm/vcardserializer.changes.run.in \
     rpm/vcardserializer.spec \
     rpm/vcardserializer.yaml \
-    qmldir
+    qmldir \
+    rpm/vcardserializer.changes
 
 target.path = $$[QT_INSTALL_QML]/$$PLUGIN_IMPORT_PATH/$$replace(uri, \\., /)
 INSTALLS += target

@@ -12,7 +12,11 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
-* Sun Apr 13 2014 Jack Tar <jack.tar@example.com> 0.0.1-1
-- Scrubbed the deck
-- Hoisted the sails
+* Sat Nov 17 2018 Miklos Marton <martonnmiklosqdev@gmail.com> 1.0.3-1
+- Add support for sharing URLs
 
+* Sat Nov 17 2018 Miklos Marton <martonnmiklosqdev@gmail.com> 1.0.2-1
+- Add Polish and Swedish translation
+
+* Fri Nov 16 2018 Miklos Marton <martonnmiklosqdev@gmail.com> 1.0.1-1
+- Initial release

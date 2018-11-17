@@ -81,16 +81,9 @@ Page {
     }
 
     onContentChanged: {
-        console.log(content.data);
-        id_VCardSerializer.setVCardData(JSON.stringify(content.data));
-        switch (id_shareMode.currentIndex) {
-        case 0:
-            textInput.text = id_VCardSerializer.serialize_vCardShort();
-            break;
-        case 1:
-            textInput.text = id_VCardSerializer.serialize_vCardFull();
-            break;
-        }
+        if (content.type === "text/vcard")
+            id_VCardSerializer.setVCardData(JSON.stringify(content.data));
+        updateTextItem(id_shareMode.currentIndex);
     }
 
     SilicaFlickable {
@@ -142,8 +135,8 @@ Page {
                                 text: qsTrId("sms-share-la-short_plaintext")
                                 onClicked:
                                 {
-                                    textInput.text = id_VCardSerializer.serialize_vCardShort()
-                                    textInput.visible = true
+                                    textInput.visible = true;
+                                    updateTextItem(0);
                                 }
                             }
                             MenuItem
@@ -153,8 +146,8 @@ Page {
                                 text: qsTrId("sms-share-la-full_plaintext")
                                 onClicked:
                                 {
-                                    textInput.text = id_VCardSerializer.serialize_vCardFull()
-                                    textInput.visible = true
+                                    textInput.visible = true;
+                                    updateTextItem(1);
                                 }
                             }
                             MenuItem
@@ -162,9 +155,10 @@ Page {
                                 id: shareTypevCARD
                                 //% "SmartMessaging vCard"
                                 text: qsTrId("sms-share-la-smartmessaging_vcard")
+                                visible: (content.type === "text/vcard")
                                 onClicked:
                                 {
-                                    textInput.visible = false
+                                    textInput.visible = false;
                                 }
                             }
                         }
@@ -292,6 +286,30 @@ Page {
         }
 
         pageStack.pop()
+    }
+
+    function updateTextItem(mode)
+    {
+        if (content.type === "text/vcard") {
+            switch (mode) {
+            case 0:
+                textInput.text = id_VCardSerializer.serialize_vCardShort();
+                break;
+            case 1:
+                textInput.text = id_VCardSerializer.serialize_vCardFull();
+                break;
+            }
+        } else if (content.type === "text/x-url"){
+            textInput.visible = true
+            switch (mode) {
+            case 0:
+                textInput.text = content.status
+                break;
+            case 1:
+                textInput.text = content.linkTitle + "\n" + content.status
+                break;
+            }
+        }
     }
 
     OfonoModemManager {

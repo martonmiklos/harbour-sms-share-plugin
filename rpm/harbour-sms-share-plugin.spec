@@ -14,7 +14,7 @@ Name:       harbour-sms-share-plugin
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    SMS sharing plugin
 Version:    1.0
-Release:    1
+Release:    2
 Group:      Qt/Qt
 License:    MIT
 URL:        https://github.com/martonmiklos/harbour-sms-share-plugin

@@ -144,7 +144,7 @@ QString vCardSerializer::serialize_vCardFull()
         }
     }
 
-    return ret;
+    return ret.trimmed();
 }
 
 QString vCardSerializer::serialize_vCardShort()
@@ -180,7 +180,7 @@ QString vCardSerializer::serialize_vCardShort()
         }
     }
 
-    return ret;
+    return ret.trimmed();
 }
 
 void vCardSerializer::setVCardData(const QString &vCardData)
