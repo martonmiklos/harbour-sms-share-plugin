@@ -35,7 +35,7 @@
     </message>
     <message id="sms-share-la-smartmessaging_vcard">
         <source>SmartMessaging vCard</source>
-        <translation>vCard</translation>
+        <translation>SmartMessaging vCard</translation>
     </message>
     <message id="sms-share-la-send">
         <source>Send</source>
@@ -48,11 +48,11 @@
     </message>
     <message id="sms-share-la-new_message_from_url">
         <source>Share link via SMS</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij link za pomocą SMS</translation>
     </message>
     <message id="sms-share-la-new_message_from_plaintext">
         <source>Share text via SMS</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij tekst za pomocą SMS</translation>
     </message>
 </context>
 </TS>
