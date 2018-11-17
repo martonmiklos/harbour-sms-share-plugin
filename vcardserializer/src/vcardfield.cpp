@@ -193,7 +193,7 @@ QString vCardField::serializeFull() const
             break;
         }
         return QString("%1: %2\n")
-                .arg(qtTrId("contacts-la-detail_type_emai"), m_value);
+                .arg(qtTrId("contacts-la-detail_type_email"), m_value);
         break;
     case vCardField::Organization:
         return QString("%1: %2\n")
