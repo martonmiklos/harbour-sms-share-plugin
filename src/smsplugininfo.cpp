@@ -9,14 +9,13 @@ SMSPluginInfo::SMSPluginInfo()
     QStringList capabilities;
 
     // Capabilites ie. what mimetypes this plugin supports
-    capabilities << QLatin1String("text/vcard") << QLatin1String("text/x-url") << QLatin1String("text/plain");
+    capabilities << QLatin1String("text/vcard")  // contacts
+                 << QLatin1String("text/x-url")  // bookmarked Urls, links
+                 << QLatin1String("text/plain"); // notes for e.g.
 
-    // TODO: Translations for 3rd party plugins is not yet supported by Sailfish OS.
-    //       Adding support there later, but for now just use what ever non-translated
-    //       string here. This string will be visible in the share method list.
     //: Display name for SMS share plugin, just translate as SMS
     //% "SMS"
-    info.displayName     = qtTrId("sms-share-la-plugin_name");
+    info.displayName     = qtTrId("harbour-sms-share-plugin-id");
 
     // Method ID is a unique identifier for this plugin. It is used to identify which share plugin should be
     // used for starting the sharing.

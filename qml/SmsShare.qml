@@ -85,6 +85,7 @@ Page {
         if (content.type === "text/vcard")
             id_VCardSerializer.setVCardData(JSON.stringify(content.data));
         updateTextItem(id_shareMode.currentIndex);
+        id_pageHeader.title = pageHeaderTitle();
     }
 
     SilicaFlickable {
@@ -101,7 +102,7 @@ Page {
             MenuItem
             {
                 //% "Send"
-                text: qsTrId("sms-share-la-send")
+                text: qsTrId("harbour-sms-share-plugin-send")
                 onClicked: send()
             }
         }
@@ -111,20 +112,19 @@ Page {
             y: newMessagePage.isLandscape ? Theme.paddingMedium : 0
             width: flickable.width
             Item {
-
                 width: flickable.width
                 Column {
                     id: recipientHeader
                     width: parent.width
                     PageHeader {
-                        text: title()
+                        id: id_pageHeader
                         visible: newMessagePage.isPortrait
                     }
                     ComboBox
                     {
                         id:  id_shareMode
                         //% "Method"
-                        label: qsTrId("sms-share-la-method")
+                        label: qsTrId("harbour-sms-share-plugin-method")
                         currentIndex: 0
                         visible: content.type !== "text/plain"
                         menu: ContextMenu
@@ -133,7 +133,7 @@ Page {
                             {
                                 id: shareTypePlainTextShort
                                 //% "Short plaintext"
-                                text: qsTrId("sms-share-la-short_plaintext")
+                                text: qsTrId("harbour-sms-share-plugin-short_plaintext")
                                 onClicked:
                                 {
                                     textInput.visible = true;
@@ -144,7 +144,7 @@ Page {
                             {
                                 id: shareTypePlainText
                                 //% "Full plaintext"
-                                text: qsTrId("sms-share-la-full_plaintext")
+                                text: qsTrId("harbour-sms-share-plugin-full_plaintext")
                                 onClicked:
                                 {
                                     textInput.visible = true;
@@ -155,7 +155,7 @@ Page {
                             {
                                 id: shareTypevCARD
                                 //% "SmartMessaging vCard"
-                                text: qsTrId("sms-share-la-smartmessaging_vcard")
+                                text: qsTrId("harbour-sms-share-plugin-smartmessaging_vcard")
                                 visible: (content.type === "text/vcard")
                                 onClicked:
                                 {
@@ -315,17 +315,17 @@ Page {
         }
     }
 
-    function title()
+    function pageHeaderTitle()
     {
         if (content.type === "text/vcard") {
             //% "Share contact via SMS"
-            return qsTrId("sms-share-la-new_message")
+            return qsTrId("harbour-sms-share-plugin-new_message")
         } else if (content.type === "text/x-url"){
             //% "Share link via SMS"
-            return qsTrId("sms-share-la-new_message_from_url")
+            return qsTrId("harbour-sms-share-plugin-new_message_from_url")
         } else if (content.type === "text/plain") {
             //% "Share text via SMS"
-            return qsTrId("sms-share-la-new_message_from_plaintext")
+            return qsTrId("harbour-sms-share-plugin-new_message_from_plaintext")
         }
     }
 

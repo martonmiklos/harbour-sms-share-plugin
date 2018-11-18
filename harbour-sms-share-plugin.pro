@@ -1,5 +1,5 @@
 TEMPLATE = lib
-TARGET = $$qtLibraryTarget(smsshareplugin)
+TARGET = $$qtLibraryTarget(harboursmsshareplugin)
 DEPENDPATH += .
 
 CONFIG += plugin link_pkgconfig
@@ -23,10 +23,10 @@ OTHER_FILES += \
     rpm/* \
     translations/*.ts
 
-TRANSLATIONS += translations/harbour-sms-share-plugin.ts \
-                translations/harbour-sms-share-plugin-hu_HU.ts \
-                translations/harbour-sms-share-plugin-pl.ts \
-                translations/harbour-sms-share-plugin-sv.ts
+#TRANSLATIONS += translations/harbour_sms_share_plugin.ts \
+TRANSLATIONS += translations/harbour_sms_share_plugin-hu.ts \
+                translations/harbour_sms_share_plugin-pl.ts \
+                translations/harbour_sms_share_plugin-sv.ts
 
 shareui.files = qml/SmsShare.qml
 shareui.path = /usr/share/nemo-transferengine/plugins
@@ -39,5 +39,6 @@ translations.path = $$[QT_INSTALL_DATA]/../translations/nemotransferengine
 INSTALLS += target shareui translations
 
 DISTFILES += \
-    translations/harbour-sms-plugin-hu.ts \
     rpm/harbour-sms-share-plugin.yaml
+
+DISTFILES += $TRANSLATIONS
