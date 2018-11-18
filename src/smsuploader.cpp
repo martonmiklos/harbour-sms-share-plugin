@@ -22,7 +22,7 @@ QString SMSUploader::displayName() const
 QUrl SMSUploader::serviceIcon() const
 {
     // Url to the icon which should be shown in the transfer UI
-    return QUrl("image://theme/icon-s-message");
+    return QUrl("/usr/share/nemo-transferengine/plugins/harbour-sms-share-plugin/icon.svg");
 }
 
 bool SMSUploader::cancelEnabled() const

@@ -61,7 +61,8 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{_libdir}/nemo-transferengine/plugins/*shareplugin.so
-%{_datadir}/nemo-transferengine/plugins/SmsShare.qml
+%{_datadir}/nemo-transferengine/plugins/harbour-sms-share-plugin/SmsShare.qml
+%{_datadir}/nemo-transferengine/plugins/harbour-sms-share-plugin/icon.svg
 %{_datadir}/translations/nemotransferengine/*.qm
 # >> files
 # << files

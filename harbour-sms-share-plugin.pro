@@ -29,16 +29,20 @@ TRANSLATIONS += translations/harbour_sms_share_plugin-hu.ts \
                 translations/harbour_sms_share_plugin-sv.ts
 
 shareui.files = qml/SmsShare.qml
-shareui.path = /usr/share/nemo-transferengine/plugins
+shareui.path = /usr/share/nemo-transferengine/plugins/harbour-sms-share-plugin
 
 target.path = /usr/lib/nemo-transferengine/plugins
 
 translations.files = translations/*.qm
 translations.path = $$[QT_INSTALL_DATA]/../translations/nemotransferengine
 
-INSTALLS += target shareui translations
+icon_.files = images/icon.svg
+icon_.path = /usr/share/nemo-transferengine/plugins/harbour-sms-share-plugin
+
+INSTALLS += target shareui translations icon_
 
 DISTFILES += \
     rpm/harbour-sms-share-plugin.yaml
 
 DISTFILES += $TRANSLATIONS
+

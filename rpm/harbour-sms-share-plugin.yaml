@@ -38,7 +38,8 @@ Requires:
 # All installed files
 Files:
   - '%{_libdir}/nemo-transferengine/plugins/*shareplugin.so'
-  - '%{_datadir}/nemo-transferengine/plugins/SmsShare.qml'
+  - '%{_datadir}/nemo-transferengine/plugins/harbour-sms-share-plugin/SmsShare.qml'
+  - '%{_datadir}/nemo-transferengine/plugins/harbour-sms-share-plugin/icon.svg'
   - '%{_datadir}/translations/nemotransferengine/*.qm'
 
 # For more information about yaml and what's supported in Sailfish OS
