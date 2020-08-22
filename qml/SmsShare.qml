@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import Sailfish.Silica.private 1.0
 import Sailfish.Contacts 1.0
 import Sailfish.Telephony 1.0
 import Sailfish.TransferEngine 1.0
@@ -181,7 +180,7 @@ Page {
                         //% "Recipients"
                         summaryPlaceholderText: qsTrId("sms-share-ph-recipients")
 
-                        onFinishedEditing: {
+                        onLastFieldExited: {
                             textInput.forceActiveFocus()
                         }
 

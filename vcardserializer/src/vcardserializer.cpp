@@ -23,7 +23,7 @@ QString vCardSerializer::serialize_vCardFull()
      * Output strategy:
      * Export shall start with the name
      *
-     * Genera export order (priority) similar to the contact edit UI:
+     * General export order (priority) similar to the contact edit UI:
      * - Phone number(s)
      * - Email address(es)
      * - Rest (birthday, website, etc.)
@@ -31,7 +31,7 @@ QString vCardSerializer::serialize_vCardFull()
      * If company details present those should be serialzed first (likely a company contact?)
      *
      */
-    for (vCardField field : m_fields) {
+    for (const auto field : qAsConst(m_fields)) {
         if (field.fieldType() == vCardField::FullName) {
             ret.append(field.serializeShort() + "\n");
             break;
@@ -39,7 +39,7 @@ QString vCardSerializer::serialize_vCardFull()
     }
 
     if (!m_hasFullName) {
-        for (vCardField field : m_fields) {
+        for (const auto field : qAsConst(m_fields)) {
             if (field.fieldType() == vCardField::NameParts) {
                 ret.append(field.serializeShort() + "\n");
                 break;
@@ -50,7 +50,7 @@ QString vCardSerializer::serialize_vCardFull()
     // if the company details filled output company stuff first
     if (m_hasOrganisation) {
         bool hasRole = false;
-        for (vCardField field : m_fields) {
+        for (const auto field : qAsConst(m_fields)) {
             if (field.fieldType() == vCardField::Role) {
                 hasRole = true;
                 // if role and organization is present
@@ -61,7 +61,7 @@ QString vCardSerializer::serialize_vCardFull()
             }
         }
 
-        for (vCardField field : m_fields) {
+        for (const auto field : qAsConst(m_fields)) {
             if (field.fieldType() == vCardField::Organization) {
                 if (hasRole)
                     ret.append(field.serializeShort() + "\n");
@@ -71,14 +71,14 @@ QString vCardSerializer::serialize_vCardFull()
             }
         }
 
-        for (vCardField field : m_fields) {
+        for (const auto field : qAsConst(m_fields)) {
             if (field.label() == vCardField::Work && field.fieldType() == vCardField::Phone) {
                 ret.append(field.serializeFull());
                 break;
             }
         }
 
-        for (vCardField field : m_fields) {
+        for (const auto field : qAsConst(m_fields)) {
             if (field.label() == vCardField::Work && field.fieldType() == vCardField::Email) {
                 ret.append(field.serializeFull());
                 break;
@@ -86,7 +86,7 @@ QString vCardSerializer::serialize_vCardFull()
         }
     }
 
-    for (vCardField field : m_fields) {
+    for (const auto field : qAsConst(m_fields)) {
         // work related fields were serialized already if the organization was set
         if (field.label() == vCardField::Work)
             continue;
@@ -98,7 +98,7 @@ QString vCardSerializer::serialize_vCardFull()
 
     if (!m_hasOrganisation) {
         // if work phone was not serialized at the organization serialize it after the other phones
-        for (vCardField field : m_fields) {
+        for (const auto field : qAsConst(m_fields)) {
             if (field.fieldType() == vCardField::Phone
                     && field.label() == vCardField::Work) {
                 ret.append(field.serializeFull());
@@ -106,7 +106,7 @@ QString vCardSerializer::serialize_vCardFull()
         }
     }
 
-    for (vCardField field : m_fields) {
+    for (const auto field : qAsConst(m_fields)) {
         if (field.label() == vCardField::Work)
             continue;
 
@@ -118,7 +118,7 @@ QString vCardSerializer::serialize_vCardFull()
     if (!m_hasOrganisation) {
         // if work email was not serialized at the organization serialize
         // it after the other email addresses
-        for (vCardField field : m_fields) {
+        for (const auto field : qAsConst(m_fields)) {
             if (field.fieldType() == vCardField::Email
                     && field.label() == vCardField::Work) {
                 ret.append(field.serializeFull());
@@ -126,19 +126,19 @@ QString vCardSerializer::serialize_vCardFull()
         }
     }
 
-    for (vCardField field : m_fields) {
+    for (const auto field : qAsConst(m_fields)) {
         if (field.fieldType() == vCardField::Address) {
             ret.append(field.serializeFull());
         }
     }
 
-    for (vCardField field : m_fields) {
+    for (const auto field : qAsConst(m_fields)) {
         if (field.fieldType() == vCardField::Url) {
             ret.append(field.serializeFull());
         }
     }
 
-    for (vCardField field : m_fields) {
+    for (const auto field : qAsConst(m_fields)) {
         if (field.fieldType() == vCardField::BirthDay) {
             ret.append(field.serializeFull());
         }
@@ -153,7 +153,7 @@ QString vCardSerializer::serialize_vCardShort()
     // short serialization strategy:
     // only the name and phone numbers in
     // the same order as they present in the vCard
-    for (vCardField field : m_fields) {
+    for (const auto field : qAsConst(m_fields)) {
         if (field.fieldType() == vCardField::FullName) {
             ret.append(field.serializeShort() + "\n");
             break;
@@ -161,7 +161,7 @@ QString vCardSerializer::serialize_vCardShort()
     }
 
     if (!m_hasFullName) {
-        for (vCardField field : m_fields) {
+        for (const auto field : qAsConst(m_fields)) {
             if (field.fieldType() == vCardField::NameParts) {
                 ret.append(field.serializeShort() + "\n");
                 break;
@@ -169,7 +169,7 @@ QString vCardSerializer::serialize_vCardShort()
         }
     }
 
-    for (vCardField field : m_fields) {
+    for (const auto field : qAsConst(m_fields)) {
         if (field.fieldType() == vCardField::Phone) {
             // if having a single phone number just serialize that
             // do not serialize the type

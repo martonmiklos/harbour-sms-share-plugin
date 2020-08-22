@@ -1,3 +1,7 @@
+!exists($$PWD/vcardserializer) {
+    error("Please do git submodule update --init --recursive")
+}
+
 TEMPLATE = lib
 TARGET = $$qtLibraryTarget(harboursmsshareplugin)
 DEPENDPATH += .
@@ -7,6 +11,10 @@ CONFIG += sailfishapp_i18n_idbased
 PKGCONFIG += nemotransferengine-qt5
 
 QT += qml
+
+NAME = harbour-sms-share-plugin
+SMSSHARE_UI_DIR = /usr/share/$$NAME
+SMSSHARE_TRANSLATIONS_DIR = $${SMSSHARE_UI_DIR}/translations
 
 # Input
 HEADERS += \
@@ -29,9 +37,8 @@ TRANSLATIONS += translations/harbour_sms_share_plugin-hu.ts \
                 translations/harbour_sms_share_plugin-sv.ts
 
 shareui.files = qml/SmsShare.qml
-shareui.path = /usr/share/nemo-transferengine/plugins/harbour-sms-share-plugin
-
-target.path = /usr/lib/nemo-transferengine/plugins
+shareui.path = $$SMSSHARE_UI_DIR
+target.path = $$[QT_INSTALL_LIBS]/nemo-transferengine/plugins
 
 translations.files = translations/*.qm
 translations.path = $$[QT_INSTALL_DATA]/../translations/nemotransferengine

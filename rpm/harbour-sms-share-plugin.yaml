@@ -12,7 +12,7 @@ License: MIT
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
-  Nem transferengine plugin for sharing contact data via SMS
+  Nemo transferengine plugin for sharing contact data via SMS
 Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution

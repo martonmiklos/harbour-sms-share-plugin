@@ -1,3 +1,7 @@
+!exists($$PWD/Qt-Quoted-Printable) {
+    error("Please do git submodule update --init --recursive")
+}
+
 TEMPLATE = lib
 TARGET = vCardSerializer
 QT += qml quick

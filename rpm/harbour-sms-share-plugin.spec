@@ -29,7 +29,7 @@ BuildRequires:  pkgconfig(nemotransferengine-qt5)
 BuildRequires:  pkgconfig(Qt5DBus)
 
 %description
-Nem transferengine plugin for sharing contact data via SMS
+Nemo transferengine plugin for sharing contact data via SMS
 
 
 %prep
