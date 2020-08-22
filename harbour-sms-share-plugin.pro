@@ -4,17 +4,34 @@
 
 TEMPLATE = lib
 TARGET = $$qtLibraryTarget(harboursmsshareplugin)
-DEPENDPATH += .
-
 CONFIG += plugin link_pkgconfig
-CONFIG += sailfishapp_i18n_idbased
 PKGCONFIG += nemotransferengine-qt5
-
-QT += qml
 
 NAME = harbour-sms-share-plugin
 SMSSHARE_UI_DIR = /usr/share/$$NAME
 SMSSHARE_TRANSLATIONS_DIR = $${SMSSHARE_UI_DIR}/translations
+
+QMAKE_CXXFLAGS += -Wno-unused-parameter -fvisibility=hidden
+QMAKE_CFLAGS += -fvisibility=hidden
+QMAKE_LFLAGS += -fvisibility=hidden
+
+INCLUDEPATH += \
+    transferengine
+
+DEFINES += \
+    SMSSHARE_UI_DIR=\\\"$$SMSSHARE_UI_DIR\\\" \
+    SMSSHARE_TRANSLATIONS_FILE=\\\"$$NAME\\\" \
+    SMSSHARE_TRANSLATIONS_DIR=\\\"$$SMSSHARE_TRANSLATIONS_DIR\\\"
+
+CONFIG(debug, debug|release) {
+    DEFINES += DEBUG HARBOUR_DEBUG
+}
+
+OTHER_FILES += \
+    transferengine/mediatransferinterface.h \
+    transferengine/transfermethodinfo.h \
+    transferengine/transferplugininfo.h \
+    transferengine/transferplugininterface.h
 
 # Input
 HEADERS += \
@@ -26,30 +43,65 @@ SOURCES += \
     src/smsplugininfo.cpp \
     src/smsshareplugin.cpp \
     src/smsuploader.cpp
-OTHER_FILES += \
-    qml/SmsShare.qml \
-    rpm/* \
-    translations/*.ts
 
-#TRANSLATIONS += translations/harbour_sms_share_plugin.ts \
-TRANSLATIONS += translations/harbour_sms_share_plugin-hu.ts \
-                translations/harbour_sms_share_plugin-pl.ts \
-                translations/harbour_sms_share_plugin-sv.ts
 
-shareui.files = qml/SmsShare.qml
-shareui.path = $$SMSSHARE_UI_DIR
+SMSSHARE_UI_FILES = \
+    images/smsshare.svg \
+    qml/SmsShare.qml
+
+OTHER_FILES += $$SMSSHARE_UI_FILES
+
 target.path = $$[QT_INSTALL_LIBS]/nemo-transferengine/plugins
+INSTALLS += target
 
-translations.files = translations/*.qm
-translations.path = $$[QT_INSTALL_DATA]/../translations/nemotransferengine
+shareui.files = $$SMSSHARE_UI_FILES
+shareui.path = $$SMSSHARE_UI_DIR
+INSTALLS += shareui
 
-icon_.files = images/icon.svg
-icon_.path = /usr/share/nemo-transferengine/plugins/harbour-sms-share-plugin
+OTHER_FILES += \
+    translations/*
 
-INSTALLS += target shareui translations icon_
+# Translations
+TRANSLATION_SOURCES = \
+  $${_PRO_FILE_PWD_}/qml \
+  $${_PRO_FILE_PWD_}/src
 
-DISTFILES += \
-    rpm/harbour-sms-share-plugin.yaml
+defineTest(addTrFile) {
+    in = $${_PRO_FILE_PWD_}/translations/$$1
+    out = $${OUT_PWD}/translations/$$1
 
-DISTFILES += $TRANSLATIONS
+    s = $$replace(1,-,_)
+    lupdate_target = lupdate_$$s
+    lrelease_target = lrelease_$$s
 
+    $${lupdate_target}.commands = lupdate -noobsolete -locations none $${TRANSLATION_SOURCES} -ts \"$${in}.ts\" && \
+        mkdir -p \"$${OUT_PWD}/translations\" &&  [ \"$${in}.ts\" != \"$${out}.ts\" ] && \
+        cp -af \"$${in}.ts\" \"$${out}.ts\" || :
+
+    $${lrelease_target}.target = $${out}.qm
+    $${lrelease_target}.depends = $${lupdate_target}
+    $${lrelease_target}.commands = lrelease -idbased \"$${out}.ts\"
+
+    QMAKE_EXTRA_TARGETS += $${lrelease_target} $${lupdate_target}
+    PRE_TARGETDEPS += $${out}.qm
+    qm.files += $${out}.qm
+
+    export($${lupdate_target}.commands)
+    export($${lrelease_target}.target)
+    export($${lrelease_target}.depends)
+    export($${lrelease_target}.commands)
+    export(QMAKE_EXTRA_TARGETS)
+    export(PRE_TARGETDEPS)
+    export(qm.files)
+}
+
+LANGUAGES = hu pl sv
+
+addTrFile($$NAME)
+for(l, LANGUAGES) {
+    addTrFile($${NAME}-$$l)
+}
+
+qm.path = $$SMSSHARE_TRANSLATIONS_DIR
+qm.CONFIG += no_check_exist
+INSTALLS += qm

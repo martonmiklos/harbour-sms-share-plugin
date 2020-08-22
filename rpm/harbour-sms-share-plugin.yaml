@@ -1,7 +1,7 @@
 Name: harbour-sms-share-plugin
 Summary: SMS sharing plugin
 Version: 1.0
-Release: 3
+Release: 4
 # The contents of the Group field should be one of the groups listed here:
 # https://github.com/mer-tools/spectacle/blob/master/data/GROUPS
 Group: Qt/Qt
@@ -17,6 +17,12 @@ Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution
 Builder: qtc5
+
+%define smsshare_datadir  %{_datadir}/%{name}
+%define smsshare_svg %{smsshare_datadir}/smsshare.svg
+%define smsshare_png %{smsshare_datadir}/smsshare.png
+%define smsshare_qmlplugindir %{_libdir}/qt5/qml/hu/mm/smsshare
+%define mkicon %{smsshare_qmlplugindir}/mkicon
 
 # This section specifies build dependencies that are resolved using pkgconfig.
 # This is the preferred way of specifying build dependencies for your package.
@@ -37,10 +43,14 @@ Requires:
   - vcardserializer >= 1.0
 # All installed files
 Files:
-  - '%{_libdir}/nemo-transferengine/plugins/*shareplugin.so'
-  - '%{_datadir}/nemo-transferengine/plugins/harbour-sms-share-plugin/SmsShare.qml'
-  - '%{_datadir}/nemo-transferengine/plugins/harbour-sms-share-plugin/icon.svg'
-  - '%{_datadir}/translations/nemotransferengine/*.qm'
+%defattr(-,root,root,-)
+%{_libdir}/nemo-transferengine/plugins/libsmsshareplugin.so
+%{smsshare_datadir}/translations/%{name}*.qm
+%{smsshare_datadir}/unhappy.svg
+%{smsshare_datadir}/*.qml
+%{smsshare_qmlplugindir}
+%{smsshare_svg}
+%{mkicon}
 
 # For more information about yaml and what's supported in Sailfish OS
 # build system, please see https://wiki.merproject.org/wiki/Spectacle
