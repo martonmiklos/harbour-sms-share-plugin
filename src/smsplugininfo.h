@@ -35,6 +35,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <QObject>
 
+#define SMSSHARE_PLUGIN_ID "SmsShare"
+#define SMSSHARE_UI_PATH SMSSHARE_UI_DIR "/SmsShare.qml"
+#define SMSSHARE_ICON_SVG SMSSHARE_UI_DIR "/smsshare.svg"
+
+
 class SMSPluginInfo : public TransferPluginInfo
 {
     Q_OBJECT

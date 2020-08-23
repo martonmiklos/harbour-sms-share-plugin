@@ -22,14 +22,14 @@ SMSPluginInfo::SMSPluginInfo()
     info.methodId        = QLatin1String("harbour-sms-share-plugin");
 
     // Path to the Sharing UI which this plugin provides.
-    info.shareUIPath     = QLatin1String("/usr/share/nemo-transferengine/plugins/harbour-sms-share-plugin/SmsShare.qml");
+    info.shareUIPath     = SMSSHARE_UI_PATH;
 
     // Pass information about capabilities. This info is used for filtering share plugins
     // which don't support defined types. For SMS, this plugin won't appear in the
     // share method list, if someone tries to share content which isn't vcard or url type,
     info.capabilitities  = capabilities;
 
-    info.accountIcon     = QStringLiteral("/usr/share/nemo-transferengine/plugins/harbour-sms-share-plugin/icon.svg");
+    info.accountIcon     = SMSSHARE_ICON_SVG;
 
     m_infoList << info;
 }

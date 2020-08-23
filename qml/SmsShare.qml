@@ -81,6 +81,7 @@ Page {
 
     onContentChanged: {
         console.log(JSON.stringify(content));
+        id_shareMode.visible = (content.type === "text/vcard");
         if (content.type === "text/vcard")
             id_VCardSerializer.setVCardData(JSON.stringify(content.data));
         updateTextItem(id_shareMode.currentIndex);
@@ -125,7 +126,7 @@ Page {
                         //% "Method"
                         label: qsTrId("harbour-sms-share-plugin-method")
                         currentIndex: 0
-                        visible: content.type !== "text/plain"
+                        visible: content.type === "text/vcard"
                         menu: ContextMenu
                         {
                             MenuItem
@@ -300,7 +301,7 @@ Page {
                 break;
             }
         } else if (content.type === "text/x-url"){
-            textInput.visible = true
+            textInput.visible = true;
             switch (mode) {
             case 0:
                 textInput.text = content.status
@@ -310,7 +311,7 @@ Page {
                 break;
             }
         } else if (content.type === "text/plain") {
-            textInput.text = content.data
+            textInput.text = content.data;
         }
     }
 

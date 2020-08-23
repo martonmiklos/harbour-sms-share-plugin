@@ -12,6 +12,12 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sun Aug 23 2020 Miklos Marton <martonnmiklosqdev@gmail.com> 1.0.3-1
+- Load the translation properly and fallback to en if no translation found
+
+* Sat Aug 22 2020 Miklos Marton <martonnmiklosqdev@gmail.com> 1.0.3-1
+- Load the contacts.qm for vCard field names not jolla-contacts.qm
+
 * Sat Nov 17 2018 Miklos Marton <martonnmiklosqdev@gmail.com> 1.0.2-1
 - Trim the serialized text (remove trailing newline)
 

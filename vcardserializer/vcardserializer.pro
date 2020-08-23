@@ -16,12 +16,12 @@ include(Qt-Quoted-Printable/quotedprintable.pri)
 SOURCES += \
         src/vcardserializer_plugin.cpp \
         src/vcardserializer.cpp \
-    src/vcardfield.cpp
+        src/vcardfield.cpp
 
 HEADERS += \
         src/vcardserializer_plugin.h \
         src/vcardserializer.h \
-    src/vcardfield.h
+        src/vcardfield.h
 
 DISTFILES += \
     rpm/vcardserializer.changes.run.in \

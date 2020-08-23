@@ -8,5 +8,5 @@ class vCardSerializerPlugin : public QQmlExtensionPlugin
     Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
 
 public:
-    virtual void registerTypes(const char *uri) override;
+    void registerTypes(const char *uri) override;
 };

@@ -11,13 +11,18 @@ vCardSerializer::vCardSerializer(QQuickItem *parent) :
     QQuickItem(parent)
 {
     QTranslator translator;
-    // look up e.g. :/translations/myapp_de.qm
-    if (translator.load(QLocale(), QLatin1String("jolla-contacts"), QLatin1String("_"), QLatin1String("/usr/share/translations")))
+    const QString filename("sailfish_components_contacts_qt5");
+    const QString directory("/usr/share/translations");
+    const QString prefix("-");
+    const QString suffix(".qm");
+    if (translator.load(QLocale(), filename, prefix, directory, suffix)
+            || translator.load(QLocale("en"), filename, prefix, directory, suffix))
         QCoreApplication::installTranslator(&translator);
 }
 
 QString vCardSerializer::serialize_vCardFull()
 {
+    QStringList lines;
     QString ret;
     /**
      * Output strategy:
@@ -92,7 +97,11 @@ QString vCardSerializer::serialize_vCardFull()
             continue;
 
         if (field.fieldType() == vCardField::Phone) {
-            ret.append(field.serializeFull());
+            const auto line = field.serializeFull();
+            if (!lines.contains(line)) {
+                ret.append(line);
+                lines.append(line);
+            }
         }
     }
 
@@ -101,7 +110,11 @@ QString vCardSerializer::serialize_vCardFull()
         for (const auto & field : m_fields) {
             if (field.fieldType() == vCardField::Phone
                     && field.label() == vCardField::Work) {
-                ret.append(field.serializeFull());
+                const auto line = field.serializeFull();
+                if (!lines.contains(line)) {
+                    ret.append(line);
+                    lines.append(line);
+                }
             }
         }
     }
@@ -111,7 +124,11 @@ QString vCardSerializer::serialize_vCardFull()
             continue;
 
         if (field.fieldType() == vCardField::Email) {
-            ret.append(field.serializeFull());
+            const auto line = field.serializeFull();
+            if (!lines.contains(line)) {
+                ret.append(line);
+                lines.append(line);
+            }
         }
     }
 
@@ -121,26 +138,42 @@ QString vCardSerializer::serialize_vCardFull()
         for (const auto & field : m_fields) {
             if (field.fieldType() == vCardField::Email
                     && field.label() == vCardField::Work) {
-                ret.append(field.serializeFull());
+                const auto line = field.serializeFull();
+                if (!lines.contains(line)) {
+                    ret.append(line);
+                    lines.append(line);
+                }
             }
         }
     }
 
     for (const auto & field : m_fields) {
         if (field.fieldType() == vCardField::Address) {
-            ret.append(field.serializeFull());
+            const auto line = field.serializeFull();
+            if (!lines.contains(line)) {
+                ret.append(line);
+                lines.append(line);
+            }
         }
     }
 
     for (const auto & field : m_fields) {
         if (field.fieldType() == vCardField::Url) {
-            ret.append(field.serializeFull());
+            const auto line = field.serializeFull();
+            if (!lines.contains(line)) {
+                ret.append(line);
+                lines.append(line);
+            }
         }
     }
 
     for (const auto & field : m_fields) {
         if (field.fieldType() == vCardField::BirthDay) {
-            ret.append(field.serializeFull());
+            const auto line = field.serializeFull();
+            if (!lines.contains(line)) {
+                ret.append(line);
+                lines.append(line);
+            }
         }
     }
 
@@ -210,7 +243,7 @@ void vCardSerializer::setVCardData(const QString &vCardData)
                                 && existingField.serializeShort() == field.serializeShort()) {
                             // we have two identical phone numbers
                             if ((existingField.label() == vCardField::UnknownLabel
-                                     && existingField.phoneType() == vCardField::UnknownPhoneType)
+                                 && existingField.phoneType() == vCardField::UnknownPhoneType)
                                     || field == existingField) {
                                 // no additional info from the first one -> remove it
                                 // the current one should have more or the same add. info

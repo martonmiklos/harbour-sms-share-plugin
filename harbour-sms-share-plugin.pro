@@ -7,6 +7,8 @@ TARGET = $$qtLibraryTarget(harboursmsshareplugin)
 CONFIG += plugin link_pkgconfig
 PKGCONFIG += nemotransferengine-qt5
 
+QT += qml
+
 NAME = harbour-sms-share-plugin
 SMSSHARE_UI_DIR = /usr/share/$$NAME
 SMSSHARE_TRANSLATIONS_DIR = $${SMSSHARE_UI_DIR}/translations

@@ -12,6 +12,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sat Aug 22 2020 Miklos Marton <martonnmiklosqdev@gmail.com> 1.0.5-1
+- Bump vcardserializer min version to 1.0.3
+
 * Sat Aug 22 2020 Miklos Marton <martonnmiklosqdev@gmail.com> 1.0.4-1
 - Fix slot name changes coming from abused Jolla private QML files
 
