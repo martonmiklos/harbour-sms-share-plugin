@@ -16,7 +16,7 @@ BuildRequires: pkgconfig(nemotransferengine-qt5)
 BuildRequires: pkgconfig(rpm)
 BuildRequires: pkgconfig(popt)
 BuildRequires: qt5-qttools
-BuildRequires: qt5-qttools-linguist
+BuildRequires: qt5-linguist
 
 %define smsshare_datadir  %{_datadir}/%{name}
 %define smsshare_svg %{smsshare_datadir}/smsshare.svg
