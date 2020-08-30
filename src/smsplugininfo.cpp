@@ -8,6 +8,21 @@ SMSPluginInfo::SMSPluginInfo()
     TransferMethodInfo info;
     QStringList capabilities;
 
+    // Load translations
+    QTranslator* tr = new QTranslator(this);
+    const QString filename(SMSSHARE_TRANSLATIONS_FILE);
+    const QString directory(SMSSHARE_TRANSLATIONS_DIR);
+    const QString prefix("-");
+    const QString suffix(".qm");
+    if (tr->load(QLocale(), filename, prefix, directory, suffix) ||
+        tr->load(QLocale("en"), filename, prefix, directory, suffix)) {
+        qApp->installTranslator(tr);
+    } else {
+        qWarning() << "Failed to load SMS Share translations from "
+            SMSSHARE_TRANSLATIONS_DIR "/" SMSSHARE_TRANSLATIONS_FILE "*.qm";
+        delete tr;
+    }
+
     // Capabilites ie. what mimetypes this plugin supports
     capabilities << QLatin1String("text/vcard")  // contacts
                  << QLatin1String("text/x-url")  // bookmarked Urls, links
