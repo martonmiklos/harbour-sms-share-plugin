@@ -1,5 +1,5 @@
 Name:       harbour-sms-share-plugin
-Version:    1.0.6
+Version:    1.0.7
 Release:    1
 License:    MIT
 Summary:    Nemo transferengine plugin for sharing contact and other short data via SMS
