@@ -107,3 +107,7 @@ for(l, LANGUAGES) {
 qm.path = $$SMSSHARE_TRANSLATIONS_DIR
 qm.CONFIG += no_check_exist
 INSTALLS += qm
+
+DISTFILES += \
+    rpm/harbour-sms-share-plugin.changes \
+    rpm/harbour-sms-share-plugin.spec

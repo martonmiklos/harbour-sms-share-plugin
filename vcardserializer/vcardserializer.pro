@@ -25,7 +25,6 @@ HEADERS += \
 
 DISTFILES += \
     rpm/vcardserializer.changes.run.in \
-    rpm/vcardserializer.spec \
     rpm/vcardserializer.yaml \
     qmldir \
     rpm/vcardserializer.changes
