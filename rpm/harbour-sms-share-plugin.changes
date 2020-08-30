@@ -12,6 +12,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sun Aug 30 2020 Miklos Marton <martonnmiklosqdev@gmail.com> 1.0.7-1
+- Force load the translations with QTranslator
+
 * Sat Aug 22 2020 Miklos Marton <martonnmiklosqdev@gmail.com> 1.0.6-1
 - Bump vcardserializer min version to 1.2
 
