@@ -10,8 +10,7 @@ vCardField::vCardField(const QString &key, const QString & value) :
     m_key(key),
     m_value(value)
 {
-    QStringList keyParts = key.split(';');
-
+    auto keyParts = key.split(';');
     if (keyParts.contains(QStringLiteral("ENCODING=QUOTED-PRINTABLE")))
         m_value = QuotedPrintable::decode(m_value.toLocal8Bit());
 
@@ -44,20 +43,21 @@ vCardField::vCardField(const QString &key, const QString & value) :
         m_value = nameParts.join(' ');
     } else if (keyParts.first() == "ADR") {
         m_fieldType = Address;
-        QString displayFormat = qtTrId("components_contacts-la-address_display_format");
+        auto displayFormat = qtTrId("components_contacts-la-address_display_format");
         // key format:
         // 0     1             2   3    4      5          6
         // Pobox;Extended addr;Str;City;Region;Postalcode;Country
-        QStringList vCardValueParts = m_value.split(';');
-        QStringList fieldsToReplace;
-        fieldsToReplace
-                << "pobox"
-                << "extaddr"
-                << "street"
-                << "city"
-                << "zipcode"
-                << "region"
-                << "country";
+        // ADR;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE;HOME:;;31 =C3=93hegy;Budapest;;=1103;
+        const auto vCardValueParts = m_value.split(';');
+        const QStringList fieldsToReplace = {
+            "pobox",
+            "extaddr",
+            "street",
+            "city",
+            "zipcode",
+            "region",
+            "country"
+        };
         int i = 0;
         for (const QString & currentField : fieldsToReplace) {
             int placeholderStart = displayFormat.indexOf(currentField);
@@ -67,6 +67,8 @@ vCardField::vCardField(const QString &key, const QString & value) :
             if (vCardValueParts.count() <= i
                     || vCardValueParts.at(i).isEmpty()
                     || vCardValueParts.at(i) == QStringLiteral("=")) { // HACK for malformed? vCard fields
+                // if not field found for the specific placeholder in the VCARD data
+                // clear the <field> from the return string
                 int placeHolderEnd = placeholderStart + 1;
                 while (placeHolderEnd < displayFormat.length()) {
                     if (displayFormat.at(placeHolderEnd) == '<')
@@ -75,7 +77,11 @@ vCardField::vCardField(const QString &key, const QString & value) :
                 }
                 displayFormat = displayFormat.remove(placeholderStart, placeHolderEnd - placeholderStart);
             } else {
-                displayFormat = displayFormat.replace(currentField, vCardValueParts.at(i));
+                auto field = vCardValueParts.at(i);
+                // prefix the PO box because a pure number looks bad...
+                if (currentField == QStringLiteral("pobox"))
+                    field = QString("%1: %2").arg(qtTrId("components_contacts-la-detail_field_address_pobox"), field);
+                displayFormat = displayFormat.replace(currentField, field);
             }
             i++;
         }

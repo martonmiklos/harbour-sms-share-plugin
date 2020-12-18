@@ -10,14 +10,14 @@
 vCardSerializer::vCardSerializer(QQuickItem *parent) :
     QQuickItem(parent)
 {
-    QTranslator translator;
+    /*QTranslator translator;
     const QString filename("sailfish_components_contacts_qt5");
     const QString directory("/usr/share/translations");
     const QString prefix("-");
     const QString suffix(".qm");
     if (translator.load(QLocale(), filename, prefix, directory, suffix)
             || translator.load(QLocale("en"), filename, prefix, directory, suffix))
-        QCoreApplication::installTranslator(&translator);
+        QCoreApplication::installTranslator(&translator);*/
 }
 
 QString vCardSerializer::serialize_vCardFull()
@@ -93,7 +93,7 @@ QString vCardSerializer::serialize_vCardFull()
 
     for (const auto & field : m_fields) {
         // work related fields were serialized already if the organization was set
-        if (field.label() == vCardField::Work)
+        if (field.label() == vCardField::Work && m_hasOrganisation)
             continue;
 
         if (field.fieldType() == vCardField::Phone) {
@@ -119,12 +119,31 @@ QString vCardSerializer::serialize_vCardFull()
         }
     }
 
+    int mailCount = 0;
+    QStringList mails;
     for (const auto & field : m_fields) {
-        if (field.label() == vCardField::Work)
+        if (field.label() == vCardField::Work && m_hasOrganisation)
             continue;
 
         if (field.fieldType() == vCardField::Email) {
             const auto line = field.serializeFull();
+            if (!mails.contains(line)) {
+                mails.append(line);
+                mailCount++;
+            }
+        }
+    }
+
+    for (const auto & field : m_fields) {
+        if (field.label() == vCardField::Work && m_hasOrganisation)
+            continue;
+
+        if (field.fieldType() == vCardField::Email) {
+            QString line;
+            if (mailCount == 1 && field.label() == vCardField::Other)
+                line = qtTrId("components_contacts-la-detail_type_email") + ": " + field.serializeShort() + "\n";
+            else
+                line = field.serializeFull();
             if (!lines.contains(line)) {
                 ret.append(line);
                 lines.append(line);
@@ -218,12 +237,23 @@ QString vCardSerializer::serialize_vCardShort()
 
 void vCardSerializer::setVCardData(const QString &vCardData)
 {
-    QStringList lines = vCardData.split("\\r\\n");
     m_fields.clear();
     m_hasFullName = false;
     m_hasOrganisation = true;
     m_phoneCount = 0;
+    auto lines = vCardData.split("\r\n");
+    // bahaaa lines ending with = are splitted...
+    QStringList lines2;
+    int i = 0;
     for (const QString & line : lines) {
+        if (line.endsWith("=") && (i != (lines.length() - 1))) {
+            lines2.append(line.left(line.length()-1) + lines.at(i+1));
+        } else {
+            lines2.append(line);
+        }
+        i++;
+    }
+    for (const QString & line : lines2) {
         if (line.contains(':')) {
             QStringList parts = line.split(':');
             if (parts.count() == 2) {
@@ -236,7 +266,7 @@ void vCardSerializer::setVCardData(const QString &vCardData)
                     m_phoneCount++;
                     // some phone numbers appears twice
                     // one without type one with
-                    // remove the typeless
+                    // then remove the "typeless"
                     int fieldI = 0;
                     for (const vCardField & existingField : m_fields) {
                         if (existingField.fieldType() == vCardField::Phone
