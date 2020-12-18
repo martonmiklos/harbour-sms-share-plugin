@@ -241,18 +241,20 @@ void vCardSerializer::setVCardData(const QString &vCardData)
     m_hasFullName = false;
     m_hasOrganisation = true;
     m_phoneCount = 0;
-    auto lines = vCardData.split("\r\n");
+    auto lines = vCardData.split("\\r\\n");
     // bahaaa lines ending with = are splitted...
     QStringList lines2;
     int i = 0;
-    for (const QString & line : lines) {
+    for (QString & line : lines) {
+        line = line.trimmed();
         if (line.endsWith("=") && (i != (lines.length() - 1))) {
-            lines2.append(line.left(line.length()-1) + lines.at(i+1));
+            lines2.append(line.left(line.length()-1) + lines.at(i+1).trimmed());
         } else {
             lines2.append(line);
         }
         i++;
     }
+
     for (const QString & line : lines2) {
         if (line.contains(':')) {
             QStringList parts = line.split(':');
