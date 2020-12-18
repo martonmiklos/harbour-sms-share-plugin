@@ -12,6 +12,13 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Fri Dec 19 2020 Miklos Marton <martonnmiklosqdev@gmail.com> 1.2.2-1
+- Do not generate Other prefix if a single Other type e-mail address
+  is generated for a contact
+- Fix parsing multi line VCARD lines separated by =
+- Prefix the PO box with the translated "PO box" text when serializin
+  addresses containing PO box field
+
 * Sun Aug 23 2020 Miklos Marton <martonnmiklosqdev@gmail.com> 1.2.1-1
 - Load the translation properly and fallback to en if no translation found
 - Do not generate duplicate entries
