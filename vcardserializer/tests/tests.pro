@@ -17,3 +17,7 @@ RESOURCES += \
   assets.qrc
 
 QMAKE_RESOURCE_FLAGS += -no-compress
+
+DISTFILES += \
+  sailfish_components_contacts_qt5-en_GB.qm \
+  test2.vcf

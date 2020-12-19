@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>test.vcf</file>
         <file>sailfish_components_contacts_qt5-hu.qm</file>
+        <file>sailfish_components_contacts_qt5-en_GB.qm</file>
+        <file>test2.vcf</file>
     </qresource>
 </RCC>
